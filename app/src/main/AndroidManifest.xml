@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.fyp.Beauticianatyourdoorstep">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="false"
+        android:theme="@style/AppTheme">
+        <activity android:name=".view.customerModule.BookingDetailsActivity"></activity>
+        <activity android:name=".view.customerModule.BookingHistoryActivity" />
+        <activity android:name=".view.customerModule.BookingActivity" />
+        <activity android:name=".view.customerModule.BeauticianDetailsActivity" />
+        <activity android:name=".view.MapActivity" />
+        <activity android:name=".view.customerModule.BeauticianSearchActivity" />
+        <activity
+            android:name=".view.customerModule.CustomerProfileManagerActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".view.AppSettingsActivity" />
+        <activity android:name=".view.beauticianModule.BeauticianAppointmentHistoryActivity" />
+        <activity android:name=".view.beauticianModule.OrdersDetailsActivity" />
+        <activity android:name=".view.beauticianModule.AppointmentActivity" />
+        <activity
+            android:name=".view.beauticianModule.BeauticianProfileManagerActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".view.beauticianModule.SpecializationActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".view.customerModule.UpdatesActivity" />
+        <activity android:name=".view.AppAboutActivity" />
+        <activity android:name=".view.customerModule.ServicesActivity" />
+        <activity android:name=".view.customerModule.CustomerDashboardActivity" />
+        <activity
+            android:name=".view.ForgetPasswordActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".view.RegistrationActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".view.beauticianModule.BeauticianDashboardActivity" />
+        <activity android:name=".view.AppSplashScreenActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".view.SignInActivity"
+            android:windowSoftInputMode="stateHidden" />
+    </application>
+
+</manifest>

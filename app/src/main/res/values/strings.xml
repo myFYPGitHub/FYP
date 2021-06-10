@@ -1,0 +1,75 @@
+<resources>
+    <string name="app_name">Beautician at your door step</string>
+    <string name="image">image</string>
+    <string name="nav_header_title">Dawood Khan</string>
+    <string name="nav_header_subtitle">email@gmail.com</string>
+    <string name="new_password_note">PLEASE NOTE:
+        \nNew Password will be send to the email you enter in the above textbox if an account is associated with this email,
+        therefore enter App correct account email address.
+    </string>
+
+    <string name="bullet">\u25CF</string>
+
+    <string-array name="person_gender">
+        <item>Select Gender</item>
+        <item>Female</item>
+        <item>Male</item>
+    </string-array>
+
+    <string-array name="user_category">
+        <item>Select Category</item>
+        <item>Beautician</item>
+        <item>Customer</item>
+    </string-array>
+
+    <string-array name="beautician_specialization">
+        <item>Select Specialization</item>
+        <item>Hair Specialist</item>
+        <item>Massage Specialist</item>
+        <item>Nails Specialist</item>
+        <item>Makeup Specialist</item>
+        <item>Waxing Specialist</item>
+        <item>Facial Specialist</item>
+    </string-array>
+
+    <string-array name="user_city">
+        <item>Select City</item>
+        <item>Islamabad</item>
+        <item>Lahore</item>
+        <item>Abbottabad</item>
+        <item>Mansehra</item>
+        <item>Peshawar</item>
+        <item>Haripur</item>
+        <item>Karachi</item>
+    </string-array>
+
+    <string-array name="app_settings_items">
+        <item>Modify First Name</item>
+        <item>Modify Last Name</item>
+        <item>Change Contact</item>
+        <item>Change Password</item>
+        <item>About App</item>
+    </string-array>
+
+    <string-array name="hours">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+    </string-array>
+
+    <string-array name="day_night">
+        <item>PM</item>
+        <item>AM</item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

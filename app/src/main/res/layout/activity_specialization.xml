@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorWhite"
+    tools:context=".view.beauticianModule.SpecializationActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.1"
+        android:src="@drawable/app_logo" />
+
+    <RelativeLayout
+        android:id="@+id/activity_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:alpha="0.8">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/gradient" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/app_logo" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/current_specialization_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_below="@id/activity_header"
+        android:text="Current Specialization" />
+
+    <TextView
+        android:id="@+id/specialization"
+        style="@style/formStyle"
+        android:layout_below="@id/current_specialization_tv"
+        android:drawablePadding="10dp"
+        app:drawableStartCompat="@drawable/ic_special_small" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/specialization"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/services_fragment" />
+</RelativeLayout>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">@color/colorDefault</color>
+    <color name="colorPrimaryDark">@color/colorDefault</color>
+    <color name="colorAccent">@color/colorPink</color>
+    <color name="colorBlack">#000</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorPink">#C51162</color>
+    <color name="colorDefault">#FFFFAB00</color>
+    <color name="rippleEffectColor1">#CC999999</color>
+    <color name="rippleEffectColor2">#d4d4d4</color>
+    <color name="colorGray">#22313F</color>
+    <color name="colorOrange">#FF6D00</color>
+    <color name="colorLineSeparator">#d4d4d4</color>
+    <color name="colorPending">#FFAB00</color>
+    <color name="colorProgress">#0091EA</color>
+    <color name="colorCompleted">#00C853</color>
+    <color name="colorCancelled">#EF5350</color>
+    <color name="colorLightYellow">#FFFDE7</color>
+    <color name="colorRed">#D50000</color>
+    <color name="colorGreen">#43A047</color>
+</resources>
