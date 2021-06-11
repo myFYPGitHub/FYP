@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -47,8 +47,7 @@ public class BeauticianSearchActivity extends AppCompatActivity implements MyCon
         Intent it = getIntent();
         customerCity = it.getStringExtra(EXTRA_CUSTOMER_CITY);
         specialization = it.getStringExtra(EXTRA_BEAUTICIAN_SPECIALIZATION);
-        TextView beautician_search_title = findViewById(R.id.beautician_search_title);
-        beautician_search_title.setText(specialization);
+        SearchView searchView = findViewById(R.id.beautician_searchView);
         beauticianListRoot = findViewById(R.id.beauticianListRoot);
         RecyclerView recyclerView = findViewById(R.id.beautician_list_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
@@ -62,6 +61,59 @@ public class BeauticianSearchActivity extends AppCompatActivity implements MyCon
                 finish();
             }
         });
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                searchBeautician(query.toLowerCase());
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                searchBeautician(newText.toLowerCase());
+                return false;
+            }
+        });
+    }
+
+    private void searchBeautician(String toSearch) {
+        if (CheckInternetConnectivity.isInternetConnected(context)) {
+            try {
+                Query checkBeautician = parent_node.child(NODE_USER).orderByChild(USER_CATEGORY).equalTo(USER_CATEGORY_BEAUTICIAN);
+                checkBeautician.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        list.clear();
+                        if (snapshot.exists()) {
+                            for (DataSnapshot b_data : snapshot.getChildren()) {
+                                ArrayList<BeauticianService> services = new ArrayList<>();
+                                Beautician beautician = b_data.getValue(Beautician.class);
+                                if (!(beautician.getAvailability() && beautician.getSpecialization().equals(specialization)
+                                        && beautician.getCity().equals(customerCity)
+                                        && (beautician.getFirstName() + " " + beautician.getLastName()).toLowerCase().contains(toSearch))) {
+                                    continue;
+                                }
+                                for (DataSnapshot serviceObject : b_data.child(NODE_BEAUTICIAN_SERVICES).getChildren()) {
+                                    services.add(serviceObject.getValue(BeauticianService.class));
+                                }
+                                list.add(new BeauticianItem(beautician, services));
+                                beauticianListRoot.setBackgroundResource(R.color.colorWhite);
+                            }
+                        }
+                        adapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
+                });
+
+            } catch (Exception e) {
+                Toast.makeText(context, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(context, MyConstants.NO_INTERNET_CONNECTION, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

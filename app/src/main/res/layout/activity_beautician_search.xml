@@ -26,18 +26,14 @@
             android:src="@drawable/ic_baseline_arrow_back"
             android:tooltipText="go back" />
 
-        <TextView
-            android:id="@+id/beautician_search_title"
-            style="@style/activityTitleStyle"
+        <SearchView
+            android:id="@+id/beautician_searchView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@null"
-            android:gravity="center"
-            android:text="Hair Specialist"
             android:textSize="18sp" />
-<!--
-        <androidx.appcompat.widget.Toolbar
+
+<!-- <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
