@@ -8,8 +8,6 @@
         therefore enter App correct account email address.
     </string>
 
-    <string name="bullet">\u25CF</string>
-
     <string-array name="person_gender">
         <item>Select Gender</item>
         <item>Female</item>
@@ -70,6 +68,4 @@
         <item>PM</item>
         <item>AM</item>
     </string-array>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

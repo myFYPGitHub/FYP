@@ -15,6 +15,10 @@
         <item name="android:ratingBarStyle">@style/Widget.AppCompat.RatingBar.Indicator</item>
     </style>
 
+    <style name="ratingBarStyle" parent="AppTheme">
+        <item name="colorControlActivated">@color/colorDefault</item>
+    </style>
+
     <style name="formStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>

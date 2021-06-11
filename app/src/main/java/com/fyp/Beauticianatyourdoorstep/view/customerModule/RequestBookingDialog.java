@@ -15,7 +15,7 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.fyp.Beauticianatyourdoorstep.R;
 
-public final class RequestBookingDialog extends AlertDialog {
+public class RequestBookingDialog extends AlertDialog {
     private final Button sendRequestBtn;
     private final AlertDialog alertDialog;
     private final EditText booking_detailsEd;

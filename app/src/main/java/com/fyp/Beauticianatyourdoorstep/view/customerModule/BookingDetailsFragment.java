@@ -20,6 +20,7 @@ import com.fyp.Beauticianatyourdoorstep.R;
 import com.fyp.Beauticianatyourdoorstep.helper.MyConstants;
 import com.fyp.Beauticianatyourdoorstep.helper.StringHelper;
 import com.fyp.Beauticianatyourdoorstep.internetchecking.CheckInternetConnectivity;
+import com.fyp.Beauticianatyourdoorstep.model.Beautician;
 import com.fyp.Beauticianatyourdoorstep.model.Booking;
 import com.fyp.Beauticianatyourdoorstep.model.BookingItem;
 import com.fyp.Beauticianatyourdoorstep.model.DB;
@@ -28,7 +29,10 @@ import com.fyp.Beauticianatyourdoorstep.uihelper.CustomInputDialog;
 import com.fyp.Beauticianatyourdoorstep.uihelper.CustomProgressDialog;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 public class BookingDetailsFragment extends Fragment implements MyConstants {
@@ -39,11 +43,12 @@ public class BookingDetailsFragment extends Fragment implements MyConstants {
     private Booking booking;
     private Button cancelBtn, completeBtn;
     private Context context;
+    private DatabaseReference parent_node;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_booking_details, container, false);
-        DatabaseReference parent_node = DB.getRtDBRootNodeReference();
+        parent_node = DB.getRtDBRootNodeReference();
         context = getActivity();
         Intent it = getActivity().getIntent();
         BookingItem bookingItem = (BookingItem) it.getSerializableExtra(EXTRA_BOOKING_DETAILS);
@@ -112,18 +117,68 @@ public class BookingDetailsFragment extends Fragment implements MyConstants {
         completeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (CheckInternetConnectivity.isInternetConnected(context)) {
-                    /*booking_node.child(BOOKING_BEAUTICIAN_STATUS).setValue(ORDER_COMPLETED)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                CustomerRatingDialog ratingDialog = new CustomerRatingDialog(context);
+                ratingDialog.setSendBtnListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (ratingDialog.getRating() == 0) {
+                            Toast.makeText(context, "Rating the Service is required", Toast.LENGTH_SHORT).show();
+                            ratingDialog.dismissDialog();
+                            return;
+                        }
+                        CustomProgressDialog progDialog = new CustomProgressDialog(context, "Sending Feedback . . .");
+                        progDialog.showDialog();
+                        if (CheckInternetConnectivity.isInternetConnected(context)) {
+                            booking_node.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
-                                public void onSuccess(Void unused) {
-                                    completeBtn.setVisibility(View.GONE);
-                                    bookingStatusTv.setText(ORDER_COMPLETED);
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if (snapshot.exists()) {
+                                        final Booking new_booking = snapshot.getValue(Booking.class);
+                                        new_booking.setBookingCustomerStatus(ORDER_COMPLETED);
+                                        new_booking.setBookingStatus(ORDER_COMPLETED);
+                                        new_booking.setServiceRating(ratingDialog.getRating());
+                                        new_booking.setServiceReview(ratingDialog.getReview());
+                                        booking_node.setValue(new_booking).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void unused) {
+                                                        String beauticianEmailId = StringHelper.removeInvalidCharsFromIdentifier(beautician.getEmail());
+                                                        DatabaseReference beauticianRef = parent_node.child(NODE_USER).child(beauticianEmailId);
+                                                        beauticianRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                            @Override
+                                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                                if (snapshot.exists()) {
+                                                                    Beautician object = snapshot.getValue(Beautician.class);
+                                                                    int total_rating = object.getTotalRating();
+                                                                    int num_of_rating = object.getNumOfRating();
+                                                                    num_of_rating += 1;
+                                                                    beauticianRef.child(USER_TOTAL_RATING).setValue(total_rating + ratingDialog.getRating());
+                                                                    beauticianRef.child(USER_NUM_OF_RATING).setValue(num_of_rating);
+                                                                    completeBtn.setVisibility(View.GONE);
+                                                                    bookingStatusTv.setText(ORDER_COMPLETED);
+                                                                    progDialog.dismissDialog();
+                                                                }
+                                                            }
+
+                                                            @Override
+                                                            public void onCancelled(@NonNull DatabaseError error) {
+                                                            }
+                                                        });
+                                                    }
+                                                });
+                                    }
                                 }
-                            });*/
-                } else {
-                    Toast.makeText(context, MyConstants.NO_INTERNET_CONNECTION, Toast.LENGTH_SHORT).show();
-                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+                                }
+                            });
+                        } else {
+                            progDialog.dismissDialog();
+                            Toast.makeText(context, MyConstants.NO_INTERNET_CONNECTION, Toast.LENGTH_SHORT).show();
+                        }
+                        ratingDialog.dismissDialog();
+                    }
+                });
             }
         });
         return rootView;

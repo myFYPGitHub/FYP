@@ -79,4 +79,20 @@ public class Booking implements Serializable {
     public Integer getServiceRating() {
         return serviceRating;
     }
+
+    public void setBookingCustomerStatus(String bookingCustomerStatus) {
+        this.bookingCustomerStatus = bookingCustomerStatus;
+    }
+
+    public void setBookingStatus(String bookingStatus) {
+        this.bookingStatus = bookingStatus;
+    }
+
+    public void setServiceReview(String serviceReview) {
+        this.serviceReview = serviceReview;
+    }
+
+    public void setServiceRating(Integer serviceRating) {
+        this.serviceRating = serviceRating;
+    }
 }
