@@ -25,7 +25,6 @@ import com.google.android.material.snackbar.Snackbar;
 public class AppSettingsActivity extends AppCompatActivity implements MyConstants {
     private Context context;
     private String newInput;
-    private static final int MIN_PASSWORD_CHARS = 4;
     private Class<?> cls;
 
     @Override

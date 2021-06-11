@@ -13,14 +13,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.fyp.Beauticianatyourdoorstep.R;
 import com.fyp.Beauticianatyourdoorstep.controller.ServerLogic;
 import com.fyp.Beauticianatyourdoorstep.helper.MyConstants;
+import com.fyp.Beauticianatyourdoorstep.helper.StringHelper;
 import com.fyp.Beauticianatyourdoorstep.internetchecking.CheckInternetConnectivity;
 import com.fyp.Beauticianatyourdoorstep.model.Beautician;
 import com.fyp.Beauticianatyourdoorstep.model.User;
 
-public class RegistrationActivity extends AppCompatActivity {
+public class RegistrationActivity extends AppCompatActivity implements MyConstants {
     private EditText firstNameEd, lastNameEd, ageEd, addressEd, emailEd, contactEd, passwordEd, confirmPassEd;
     private Spinner genderSpinner, citySpinner, categorySpinner, specializationSpinner;
-    private static final int MIN_PASSWORD_CHARS = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +74,7 @@ public class RegistrationActivity extends AppCompatActivity {
         String specialization = specializationSpinner.getSelectedItem().toString();
         if (SignUpValidation(fname, email, age, genderIndex, contact, address, cityIndex, password, confirmPass, categoryIndex, specializationIndex)) {
             if (CheckInternetConnectivity.isInternetConnected(this)) {
+                password = StringHelper.toMD5String(password);
                 if (categoryIndex == 1) {
                     User user = new Beautician(fname, lname, age, gender, email, password, contact, address, city, category, specialization, false);
                     ServerLogic.createNewUserAccount(RegistrationActivity.this, user);

@@ -60,7 +60,7 @@ public class SignInActivity extends AppCompatActivity implements MyConstants {
             return;
         }
         if (CheckInternetConnectivity.isInternetConnected(this)) {
-            ServerLogic.verifyLoginCredentials(this, email, password);
+            ServerLogic.verifyLoginCredentials(this, email, StringHelper.toMD5String(password));
         } else {
             Toast.makeText(this, MyConstants.NO_INTERNET_CONNECTION, Toast.LENGTH_SHORT).show();
         }

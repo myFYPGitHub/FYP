@@ -3,6 +3,8 @@ package com.fyp.Beauticianatyourdoorstep.helper;
 
 public interface MyConstants {
 
+    int MIN_PASSWORD_CHARS = 6;
+
     String EXTRA_BEAUTICIAN_SPECIALIZATION = "SPECIALIZATION";
     String EXTRA_BOOKING_DETAILS = "BOOKING_DETAILS";
     String EXTRA_BEAUTICIAN_DETAILS = "BEAUTICIAN_DETAILS";

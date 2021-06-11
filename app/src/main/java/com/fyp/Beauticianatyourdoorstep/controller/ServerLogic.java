@@ -371,7 +371,7 @@ public final class ServerLogic implements MyConstants {
 
     ////////////////////////////////    SETTINGS LOGIC    ////////////////////////////////////////////////////
     public static void changeFirstName(final Activity activity, final String newFirstName) {
-        progDialog = new CustomProgressDialog(activity, "Changing Last Name . . .");
+        progDialog = new CustomProgressDialog(activity, "Changing First Name . . .");
         progDialog.showDialog();
         try {
             email_identifier = new LoginManagement(activity).getEmailIdentifier();
@@ -421,7 +421,7 @@ public final class ServerLogic implements MyConstants {
     }
 
     public static void changeContact(final Activity activity, final String newContact) {
-        progDialog = new CustomProgressDialog(activity, "Changing Last Name . . .");
+        progDialog = new CustomProgressDialog(activity, "Changing Contact . . .");
         progDialog.showDialog();
         try {
             email_identifier = new LoginManagement(activity).getEmailIdentifier();
