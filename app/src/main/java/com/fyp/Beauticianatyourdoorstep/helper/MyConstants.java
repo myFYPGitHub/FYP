@@ -60,8 +60,5 @@ public interface MyConstants {
     String GENDER_MALE = "male";
     String GENDER_FEMALE = "female";
 
-    String PROFILE_PIC_KEY = "PROFILE_PICS";
-
-
     // String[] BEAUTICIAN_SERVICES = {"Hair Specialist", "Massage Specialist", "Nails Specialist", "Makeup Specialist", "Waxing Specialist", "Facial Specialist"};
 }

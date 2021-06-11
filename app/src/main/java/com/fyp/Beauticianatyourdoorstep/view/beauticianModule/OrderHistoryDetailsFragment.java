@@ -22,7 +22,7 @@ import com.fyp.Beauticianatyourdoorstep.model.User;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 public class OrderHistoryDetailsFragment extends Fragment implements MyConstants {
-    private TextView serviceNameTv, serviceDetailsTv, cusGenderTv, cusNameTv, cusAddressTv, cusContactTv, serviceDateTv, serviceTimingTv, bookingStatusTv, cusCityTv, cancelReasonTv, serviceReviewTv;
+    private TextView serviceNameTv, serviceDetailsTv, cusGenderTv, cusNameTv, cusAddressTv, cusContactTv,cusAgeTv, serviceDateTv, serviceTimingTv, bookingStatusTv, cusCityTv, cancelReasonTv, serviceReviewTv;
     private RatingBar customerRatingBar, serviceRatingBar;
     private RoundedImageView profile_pic;
     private LinearLayout cancelReasonContainer;
@@ -42,6 +42,7 @@ public class OrderHistoryDetailsFragment extends Fragment implements MyConstants
         cusAddressTv = rootView.findViewById(R.id.history_details_cusAddress);
         cusContactTv = rootView.findViewById(R.id.history_details_cusContact);
         cusGenderTv = rootView.findViewById(R.id.history_details_cusGender);
+        cusAgeTv = rootView.findViewById(R.id.history_details_cusAge);
         serviceDateTv = rootView.findViewById(R.id.history_details_serviceDate);
         cusCityTv = rootView.findViewById(R.id.history_details_cusCity);
         serviceTimingTv = rootView.findViewById(R.id.history_details_serviceTiming);
@@ -78,6 +79,7 @@ public class OrderHistoryDetailsFragment extends Fragment implements MyConstants
         customerRatingBar.setRating(customer_rating);
         cusContactTv.setText(customer.getContact());
         cusGenderTv.setText(customer.getGender());
+        cusAgeTv.setText(customer.getAge());
         cusCityTv.setText(StringHelper.capitalizeString(customer.getCity()));
         cusAddressTv.setText(customer.getAddress());
         if (booking_status.equals(ORDER_CANCELLED)) {

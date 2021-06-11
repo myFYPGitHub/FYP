@@ -117,9 +117,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="Cancellation Reason"
                     android:textColor="@color/colorRed"
-                    android:textStyle="bold"
-                    android:text="Cancellation Reason" />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/history_details_cancelReason"
@@ -139,11 +139,11 @@
 
             <RatingBar
                 android:id="@+id/history_details_service_rating"
-                android:theme="@style/customRatingBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:numStars="5" />
+                android:numStars="5"
+                android:theme="@style/customRatingBar" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -210,11 +210,11 @@
 
                     <RatingBar
                         android:id="@+id/history_details_cusRating"
-                        android:theme="@style/customRatingBar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
-                        android:numStars="5" />
+                        android:numStars="5"
+                        android:theme="@style/customRatingBar" />
                 </RelativeLayout>
             </LinearLayout>
 
@@ -262,6 +262,30 @@
                     android:layout_weight="1"
                     android:gravity="end"
                     android:text="Male"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Age"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/history_details_cusAge"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="00"
                     android:textColor="@color/colorBlack"
                     android:textSize="16sp" />
             </LinearLayout>

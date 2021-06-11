@@ -36,7 +36,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 public class OrderDetailsFragment extends Fragment implements MyConstants {
-    private TextView serviceNameTv, serviceDetailsTv, cusGenderTv, cusNameTv, cusAddressTv, cusContactTv, serviceDateTv, serviceTimingTv, bookingStatusTv, cusCityTv;
+    private TextView serviceNameTv, serviceDetailsTv, cusGenderTv, cusNameTv, cusAddressTv,cusAgeTv, cusContactTv, serviceDateTv, serviceTimingTv, bookingStatusTv, cusCityTv;
     private RatingBar ratingBar;
     private RoundedImageView profile_pic;
     private User customer;
@@ -59,6 +59,7 @@ public class OrderDetailsFragment extends Fragment implements MyConstants {
         cusAddressTv = rootView.findViewById(R.id.order_details_cusAddress);
         cusContactTv = rootView.findViewById(R.id.order_details_cusContact);
         cusGenderTv = rootView.findViewById(R.id.order_details_cusGender);
+        cusAgeTv = rootView.findViewById(R.id.order_details_cusAge);
         serviceDateTv = rootView.findViewById(R.id.order_details_serviceDate);
         cusCityTv = rootView.findViewById(R.id.order_details_cusCity);
         serviceTimingTv = rootView.findViewById(R.id.order_details_serviceTiming);
@@ -212,6 +213,7 @@ public class OrderDetailsFragment extends Fragment implements MyConstants {
         ratingBar.setRating(customer_rating);
         cusContactTv.setText(customer.getContact());
         cusGenderTv.setText(customer.getGender());
+        cusAgeTv.setText(customer.getAge());
         cusCityTv.setText(StringHelper.capitalizeString(customer.getCity()));
         cusAddressTv.setText(customer.getAddress());
         String bookingBeauticianStatus = booking.getBookingBeauticianStatus();
