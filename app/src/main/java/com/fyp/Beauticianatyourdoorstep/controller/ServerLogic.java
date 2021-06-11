@@ -130,6 +130,47 @@ public final class ServerLogic implements MyConstants {
         }
     }
 
+    /*public static void sendNewPasswordToCorrectEmail(final Activity activity, final String recipient_email) {
+        progDialog = new CustomProgressDialog(activity, "Checking your email in database . . .");
+        progDialog.showDialog();
+        try {
+            Query checkExistingAcc = realtimeDatabaseReference.orderByChild(USER_KEY_EMAIL).equalTo(recipient_email);
+            checkExistingAcc.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        progDialog.dismissDialog();
+                        final String new_key = String.valueOf(1316548 + new SecureRandom().nextInt(3216546));
+                        email_identifier = StringOperations.removeInvalidCharsFromIdentifier(recipient_email);
+                        Task<Void> task = realtimeDatabaseReference.child(email_identifier).child(USER_KEY_PASSWORD).setValue(StringOperations.toMD5String(new_key));
+                        task.addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                MailService.sendMessage(activity, recipient_email, new_key);
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                progDialog.dismissDialog();
+                                CustomToast.makeToast(activity, "Can't change your password at this time!\nError:" + e.getMessage(), Toast.LENGTH_LONG);
+                            }
+                        });
+                    } else {
+                        progDialog.dismissDialog();
+                        new CustomMsgDialog(activity, "WRONG EMAIL!", "Email you entered is not associated with any account in our database.");
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
+            });
+        } catch (Exception e) {
+            progDialog.dismissDialog();
+            CustomToast.makeToast(activity, "Error:" + e.getMessage(), Toast.LENGTH_LONG);
+        }
+    }*/
+
     public static void uploadProfilePic(final Activity activity, final Uri pic_uri) {
         try {
             progDialog = new CustomProgressDialog(activity, "It may take a while please wait . . .");
