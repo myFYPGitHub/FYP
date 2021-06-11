@@ -57,7 +57,6 @@ public interface MyConstants {
     String BOOKING_SERVICE_REVIEW = "serviceReview";
     String BOOKING_CANCELLATION_REASON = "cancellationReason";
 
-
     String GENDER_MALE = "male";
     String GENDER_FEMALE = "female";
 

@@ -12,6 +12,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
@@ -19,14 +20,19 @@ import com.fyp.Beauticianatyourdoorstep.R;
 import com.fyp.Beauticianatyourdoorstep.helper.MyConstants;
 import com.fyp.Beauticianatyourdoorstep.helper.StringHelper;
 import com.fyp.Beauticianatyourdoorstep.internetchecking.CheckInternetConnectivity;
+import com.fyp.Beauticianatyourdoorstep.model.Beautician;
 import com.fyp.Beauticianatyourdoorstep.model.Booking;
 import com.fyp.Beauticianatyourdoorstep.model.DB;
 import com.fyp.Beauticianatyourdoorstep.model.OrderItem;
 import com.fyp.Beauticianatyourdoorstep.model.User;
 import com.fyp.Beauticianatyourdoorstep.uihelper.CustomConfirmDialog;
 import com.fyp.Beauticianatyourdoorstep.uihelper.CustomInputDialog;
+import com.fyp.Beauticianatyourdoorstep.uihelper.CustomProgressDialog;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 public class OrderDetailsFragment extends Fragment implements MyConstants {
@@ -130,20 +136,55 @@ public class OrderDetailsFragment extends Fragment implements MyConstants {
         completeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (CheckInternetConnectivity.isInternetConnected(context)) {
-                    booking_node.child(BOOKING_BEAUTICIAN_STATUS).setValue(ORDER_COMPLETED)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
-                                    completeBtn.setVisibility(View.GONE);
-                                    cancelBtn.setVisibility(View.GONE);
-                                    bookingStatusTv.setText(ORDER_COMPLETED);
-                                    Toast.makeText(context, "Please wait for Customer Response", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                } else {
-                    Toast.makeText(context, MyConstants.NO_INTERNET_CONNECTION, Toast.LENGTH_SHORT).show();
-                }
+                BeauticianRatingDialog ratingDialog = new BeauticianRatingDialog(context);
+                ratingDialog.setSendBtnListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (ratingDialog.getRating() == 0) {
+                            Toast.makeText(context, "Rating your customer is required", Toast.LENGTH_SHORT).show();
+                            ratingDialog.dismissDialog();
+                            return;
+                        }
+                        CustomProgressDialog progDialog = new CustomProgressDialog(context, "Sending Feedback . . .");
+                        progDialog.showDialog();
+                        if (CheckInternetConnectivity.isInternetConnected(context)) {
+                            booking_node.child(BOOKING_BEAUTICIAN_STATUS).setValue(ORDER_COMPLETED)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void unused) {
+                                            String customerEmailId = StringHelper.removeInvalidCharsFromIdentifier(customer.getEmail());
+                                            DatabaseReference customerRef = parent_node.child(NODE_USER).child(customerEmailId);
+                                            customerRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                    if (snapshot.exists()) {
+                                                        User cusObject = snapshot.getValue(Beautician.class);
+                                                        int total_rating = cusObject.getTotalRating();
+                                                        int num_of_rating = cusObject.getNumOfRating();
+                                                        num_of_rating += 1;
+                                                        customerRef.child(USER_TOTAL_RATING).setValue(total_rating + ratingDialog.getRating());
+                                                        customerRef.child(USER_NUM_OF_RATING).setValue(num_of_rating);
+                                                        completeBtn.setVisibility(View.GONE);
+                                                        cancelBtn.setVisibility(View.GONE);
+                                                        bookingStatusTv.setText(ORDER_COMPLETED);
+                                                        Toast.makeText(context, "Please wait for Customer Response", Toast.LENGTH_SHORT).show();
+                                                        progDialog.dismissDialog();
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError error) {
+                                                }
+                                            });
+                                        }
+                                    });
+                        } else {
+                            progDialog.dismissDialog();
+                            Toast.makeText(context, MyConstants.NO_INTERNET_CONNECTION, Toast.LENGTH_SHORT).show();
+                        }
+                        ratingDialog.dismissDialog();
+                    }
+                });
             }
         });
         return rootView;

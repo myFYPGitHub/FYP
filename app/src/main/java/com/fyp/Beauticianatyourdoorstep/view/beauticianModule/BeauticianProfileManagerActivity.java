@@ -73,7 +73,6 @@ public class BeauticianProfileManagerActivity extends AppCompatActivity implemen
         specializationSpinner = findViewById(R.id.beautyMgrSpecialization);
         profile_pic = findViewById(R.id.beautyMgrProfilePic);
         beautyMgrSwitch = findViewById(R.id.beautyMgrSwitch);
-
         email_identifier = new LoginManagement(context).getEmailIdentifier();
         realtimeDatabaseReference = DB.getRtDBRootNodeReference();
         findViewById(R.id.beautyMgrSelectPic).setOnClickListener(new View.OnClickListener() {

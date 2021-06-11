@@ -31,7 +31,7 @@ public class OrderHistoryDetailsFragment extends Fragment implements MyConstants
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_history_details, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_order_history_details, container, false);
         Intent it = getActivity().getIntent();
         OrderItem orderItem = (OrderItem) it.getSerializableExtra(EXTRA_BOOKING_DETAILS);
         customer = orderItem.getUserInstance();
