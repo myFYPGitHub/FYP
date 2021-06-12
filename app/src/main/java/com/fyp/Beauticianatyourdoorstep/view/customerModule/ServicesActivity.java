@@ -12,7 +12,7 @@ import com.fyp.Beauticianatyourdoorstep.helper.MyConstants;
 
 public class ServicesActivity extends AppCompatActivity implements MyConstants {
     private String[] specializations;
-    private String customerCity;
+    private String customerCity, customerGender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +20,7 @@ public class ServicesActivity extends AppCompatActivity implements MyConstants {
         setContentView(R.layout.activity_customer_services);
         Intent it = getIntent();
         customerCity = it.getStringExtra(EXTRA_CUSTOMER_CITY);
+        customerGender = it.getStringExtra(EXTRA_GENDER);
         specializations = getResources().getStringArray(R.array.beautician_specialization);
         findViewById(R.id.backBtn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,6 +54,7 @@ public class ServicesActivity extends AppCompatActivity implements MyConstants {
                 specialist = specializations[6];
         }
         it.setClass(ServicesActivity.this, BeauticianSearchActivity.class);
+        it.putExtra(EXTRA_GENDER, customerGender);
         it.putExtra(EXTRA_CUSTOMER_CITY, customerCity);
         it.putExtra(EXTRA_BEAUTICIAN_SPECIALIZATION, specialist);
         startActivity(it);

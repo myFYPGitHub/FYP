@@ -10,6 +10,7 @@ public interface MyConstants {
     String EXTRA_BEAUTICIAN_DETAILS = "BEAUTICIAN_DETAILS";
     String EXTRA_CUSTOMER_CITY = "CITY";
     String EXTRA_CLASS = "CLASS";
+    String EXTRA_GENDER = "GENDER";
 
     String NODE_USER = "USER";
     String NODE_BOOKING = "BOOKING";

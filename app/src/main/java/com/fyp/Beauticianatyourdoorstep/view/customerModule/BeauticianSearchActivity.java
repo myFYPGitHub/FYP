@@ -37,7 +37,7 @@ public class BeauticianSearchActivity extends AppCompatActivity implements MyCon
     private Context context;
     private LinearLayout beauticianListRoot;
     private String specialization;
-    private String customerCity;
+    private String customerCity, customerGender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +46,7 @@ public class BeauticianSearchActivity extends AppCompatActivity implements MyCon
         context = BeauticianSearchActivity.this;
         Intent it = getIntent();
         customerCity = it.getStringExtra(EXTRA_CUSTOMER_CITY);
+        customerGender = it.getStringExtra(EXTRA_GENDER);
         specialization = it.getStringExtra(EXTRA_BEAUTICIAN_SPECIALIZATION);
         SearchView searchView = findViewById(R.id.beautician_searchView);
         beauticianListRoot = findViewById(R.id.beauticianListRoot);
@@ -90,7 +91,8 @@ public class BeauticianSearchActivity extends AppCompatActivity implements MyCon
                                 Beautician beautician = b_data.getValue(Beautician.class);
                                 if (!(beautician.getAvailability() && beautician.getSpecialization().equals(specialization)
                                         && beautician.getCity().equals(customerCity)
-                                        && (beautician.getFirstName() + " " + beautician.getLastName()).toLowerCase().contains(toSearch))) {
+                                        && (beautician.getFirstName() + " " + beautician.getLastName()).toLowerCase().contains(toSearch)
+                                        && beautician.getGender().equals(customerGender))) {
                                     continue;
                                 }
                                 for (DataSnapshot serviceObject : b_data.child(NODE_BEAUTICIAN_SERVICES).getChildren()) {
@@ -132,7 +134,9 @@ public class BeauticianSearchActivity extends AppCompatActivity implements MyCon
                             for (DataSnapshot b_data : snapshot.getChildren()) {
                                 ArrayList<BeauticianService> services = new ArrayList<>();
                                 Beautician beautician = b_data.getValue(Beautician.class);
-                                if (!(beautician.getAvailability() && beautician.getSpecialization().equals(specialization) && beautician.getCity().equals(customerCity))) {
+                                if (!(beautician.getAvailability() && beautician.getSpecialization().equals(specialization)
+                                        && beautician.getCity().equals(customerCity)
+                                        && beautician.getGender().equals(customerGender))) {
                                     continue;
                                 }
                                 for (DataSnapshot serviceObject : b_data.child(NODE_BEAUTICIAN_SERVICES).getChildren()) {

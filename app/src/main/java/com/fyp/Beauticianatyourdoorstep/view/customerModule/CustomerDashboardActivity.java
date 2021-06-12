@@ -44,7 +44,7 @@ public class CustomerDashboardActivity extends AppCompatActivity implements MyCo
     private TextView drawer_fullname_tv;
     private static LoginManagement loginManagement;
     private RoundedImageView drawer_profile_pic;
-    private String customerCity;
+    private String customerCity, customerGender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +95,7 @@ public class CustomerDashboardActivity extends AppCompatActivity implements MyCo
             public void onClick(View view) {
                 if (CheckInternetConnectivity.isInternetConnected(context)) {
                     Intent it = new Intent();
+                    it.putExtra(EXTRA_GENDER, customerGender);
                     it.putExtra(EXTRA_CUSTOMER_CITY, customerCity);
                     it.setClass(context, ServicesActivity.class);
                     startActivity(it);
@@ -173,6 +174,7 @@ public class CustomerDashboardActivity extends AppCompatActivity implements MyCo
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             if (dataSnapshot.exists()) {
+                                customerGender = dataSnapshot.child(USER_GENDER).getValue(String.class);
                                 customerCity = dataSnapshot.child(USER_CITY).getValue(String.class);
                                 String first_name = dataSnapshot.child(USER_FIRST_NAME).getValue(String.class);
                                 String last_name = dataSnapshot.child(USER_LAST_NAME).getValue(String.class);
