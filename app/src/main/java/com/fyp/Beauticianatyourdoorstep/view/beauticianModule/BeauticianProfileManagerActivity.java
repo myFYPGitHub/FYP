@@ -174,7 +174,7 @@ public class BeauticianProfileManagerActivity extends AppCompatActivity implemen
                         int beautician_rating = total_rating / (num_of_rating == 0 ? 1 : num_of_rating);
                         beautyMgrRatingBar.setRating(beautician_rating);
                         descEd.setText(beautician.getDescription());
-                        if(descEd.getText().toString().equals("")){
+                        if (descEd.getText().toString().equals("")) {
                             descEd.setError("please write your description");
                         }
                         addressEd.setText(beautician.getAddress());
@@ -197,23 +197,38 @@ public class BeauticianProfileManagerActivity extends AppCompatActivity implemen
                         public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                             progDialog.showDialog();
                             if (b) {
-                                dbRef.child(BEAUTICIAN_AVAILABILITY).setValue(true)
-                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void unused) {
-                                        beautyMgrSwitch.setText("Available");
-                                        progDialog.dismissDialog();
-                                    }
-                                });
+                                dbRef.child(NODE_BEAUTICIAN_SERVICES)
+                                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                if (snapshot.exists()) {
+                                                    dbRef.child(BEAUTICIAN_AVAILABILITY).setValue(true)
+                                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                @Override
+                                                                public void onSuccess(Void unused) {
+                                                                    beautyMgrSwitch.setText("Available");
+                                                                    progDialog.dismissDialog();
+                                                                }
+                                                            });
+                                                } else {
+                                                    beautyMgrSwitch.setChecked(false);
+                                                    Toast.makeText(context, "You have not provide any Service!\nMake sure you provide at least one Service.", Toast.LENGTH_LONG).show();
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+                                            }
+                                        });
                             } else {
                                 dbRef.child(BEAUTICIAN_AVAILABILITY).setValue(false)
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void unused) {
-                                        beautyMgrSwitch.setText("Unavailable");
-                                        progDialog.dismissDialog();
-                                    }
-                                });
+                                            @Override
+                                            public void onSuccess(Void unused) {
+                                                beautyMgrSwitch.setText("Unavailable");
+                                                progDialog.dismissDialog();
+                                            }
+                                        });
                             }
                         }
                     });
