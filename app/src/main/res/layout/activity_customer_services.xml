@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorWhite"
     android:orientation="vertical"
-    tools:context=".view.customerModule.ServicesActivity">
+    tools:context=".view.customerPanel.ServicesActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

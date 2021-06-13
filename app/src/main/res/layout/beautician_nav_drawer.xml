@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".view.beauticianModule.BeauticianDashboardActivity"
+    tools:context=".view.beauticianPanel.BeauticianDashboardActivity"
     tools:openDrawer="start">
 
     <include

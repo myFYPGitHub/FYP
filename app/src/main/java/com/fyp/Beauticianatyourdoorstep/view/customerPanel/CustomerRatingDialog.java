@@ -1,4 +1,4 @@
-package com.fyp.Beauticianatyourdoorstep.view.customerModule;
+package com.fyp.Beauticianatyourdoorstep.view.customerPanel;
 
 import android.content.Context;
 import android.os.Handler;

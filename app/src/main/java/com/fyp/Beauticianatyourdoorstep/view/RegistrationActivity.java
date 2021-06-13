@@ -90,7 +90,7 @@ public class RegistrationActivity extends AppCompatActivity implements MyConstan
         }
     }
 
-    public boolean SignUpValidation(String fname, String email, String age, int genderIndex, String contact, String address, int cityIndex, String password, String confirmPass, int categoryIndex, int specialization) {
+    public boolean SignUpValidation(String fname, String email, String age, int genderIndex, String contact, String address, int cityIndex, String password, String confirmPass, int categoryIndex, int specializationIndex) {
         if (fname.isEmpty()) {
             firstNameEd.setError("Please Enter your First Name");
             return false;
@@ -142,7 +142,7 @@ public class RegistrationActivity extends AppCompatActivity implements MyConstan
             Toast.makeText(this, "Please Select a Category", Toast.LENGTH_LONG).show();
             return false;
         }
-        if (specialization == 0) {
+        if (specializationIndex == 0) {
             Toast.makeText(this, "Please Select your Specialization", Toast.LENGTH_LONG).show();
             return false;
         }

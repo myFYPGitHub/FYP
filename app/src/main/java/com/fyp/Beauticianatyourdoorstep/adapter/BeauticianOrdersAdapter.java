@@ -24,7 +24,7 @@ import com.fyp.Beauticianatyourdoorstep.internetchecking.CheckInternetConnectivi
 import com.fyp.Beauticianatyourdoorstep.model.Booking;
 import com.fyp.Beauticianatyourdoorstep.model.OrderItem;
 import com.fyp.Beauticianatyourdoorstep.model.User;
-import com.fyp.Beauticianatyourdoorstep.view.beauticianModule.OrdersDetailsActivity;
+import com.fyp.Beauticianatyourdoorstep.view.beauticianPanel.OrdersDetailsActivity;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.ArrayList;

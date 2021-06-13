@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/no_data_found"
     android:orientation="vertical"
-    tools:context=".view.beauticianModule.BeauticianOrderRequestsActivity">
+    tools:context=".view.beauticianPanel.BeauticianOrderRequestsActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

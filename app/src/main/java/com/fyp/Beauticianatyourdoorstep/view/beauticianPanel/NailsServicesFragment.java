@@ -1,4 +1,4 @@
-package com.fyp.Beauticianatyourdoorstep.view.beauticianModule;
+package com.fyp.Beauticianatyourdoorstep.view.beauticianPanel;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -29,7 +29,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-public class MassageServicesFragment extends Fragment {
+public class NailsServicesFragment extends Fragment {
     private final int fieldsLength = 4;
     private final TextView[] serviceNameTv = new TextView[fieldsLength];
     private final EditText[] servicePriceEd = new EditText[fieldsLength];
@@ -38,7 +38,7 @@ public class MassageServicesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_massage_services, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_nails_services, container, false);
         serviceNameTv[0] = rootView.findViewById(R.id.service1Name);
         serviceNameTv[1] = rootView.findViewById(R.id.service2Name);
         serviceNameTv[2] = rootView.findViewById(R.id.service3Name);

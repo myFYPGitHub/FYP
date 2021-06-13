@@ -1,4 +1,4 @@
-package com.fyp.Beauticianatyourdoorstep.view.customerModule;
+package com.fyp.Beauticianatyourdoorstep.view.customerPanel;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -29,24 +29,24 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class BookingHistoryActivity extends AppCompatActivity implements MyConstants {
+public class BookingActivity extends AppCompatActivity implements MyConstants {
     private CustomerBookingAdapter adapter;
     private final ArrayList<BookingItem> list = new ArrayList<>();
     private static DatabaseReference parent_node, beauticianRef;
     private Context context;
-    private LinearLayout cusBookingHistoryRoot;
+    private LinearLayout customerBookingRoot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_booking_history);
-        context = BookingHistoryActivity.this;
-        cusBookingHistoryRoot = findViewById(R.id.cusBookingHistoryRoot);
-        RecyclerView recyclerView = findViewById(R.id.cusBookingHistoryRecyclerView);
+        setContentView(R.layout.activity_customer_booking);
+        context = BookingActivity.this;
+        customerBookingRoot = findViewById(R.id.customerBookingRoot);
+        RecyclerView recyclerView = findViewById(R.id.customerBookingRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setHasFixedSize(true);
         parent_node = DB.getRtDBRootNodeReference();
-        adapter = new CustomerBookingAdapter(BookingHistoryActivity.this, list);
+        adapter = new CustomerBookingAdapter(BookingActivity.this, list);
         recyclerView.setAdapter(adapter);
         findViewById(R.id.backBtn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,7 +61,7 @@ public class BookingHistoryActivity extends AppCompatActivity implements MyConst
         super.onStart();
         list.clear();
         adapter.notifyDataSetChanged();
-        cusBookingHistoryRoot.setBackgroundResource(R.drawable.no_data_found);
+        customerBookingRoot.setBackgroundResource(R.drawable.no_data_found);
         if (CheckInternetConnectivity.isInternetConnected(context)) {
             try {
                 String myEmail = new LoginManagement(context).getLoginEmail();
@@ -72,7 +72,7 @@ public class BookingHistoryActivity extends AppCompatActivity implements MyConst
                         if (snapshot.exists()) {
                             for (DataSnapshot orderData : snapshot.getChildren()) {
                                 String booking_status = orderData.child(BOOKING_STATUS).getValue(String.class);
-                                if (!(booking_status.equals(ORDER_COMPLETED) || booking_status.equals(ORDER_CANCELLED))) {
+                                if (!(booking_status.equals(ORDER_PENDING) || booking_status.equals(ORDER_PROGRESS))) {
                                     continue;
                                 }
                                 String beauticianId = orderData.child(BOOKING_BEAUTICIAN_EMAIL).getValue(String.class);
@@ -85,7 +85,7 @@ public class BookingHistoryActivity extends AppCompatActivity implements MyConst
                                             Booking booking = orderData.getValue(Booking.class);
                                             Beautician beautician = snapshot.getValue(Beautician.class);
                                             list.add(new BookingItem(beautician, booking));
-                                            cusBookingHistoryRoot.setBackgroundResource(R.color.colorWhite);
+                                            customerBookingRoot.setBackgroundResource(R.color.colorWhite);
                                         }
                                         adapter.notifyDataSetChanged();
                                     }

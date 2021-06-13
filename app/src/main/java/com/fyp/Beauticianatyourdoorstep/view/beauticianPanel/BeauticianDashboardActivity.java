@@ -1,4 +1,4 @@
-package com.fyp.Beauticianatyourdoorstep.view.beauticianModule;
+package com.fyp.Beauticianatyourdoorstep.view.beauticianPanel;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -29,7 +29,7 @@ import com.fyp.Beauticianatyourdoorstep.uihelper.CustomToast;
 import com.fyp.Beauticianatyourdoorstep.view.AppSettingsActivity;
 import com.fyp.Beauticianatyourdoorstep.view.MapActivity;
 import com.fyp.Beauticianatyourdoorstep.view.SignInActivity;
-import com.fyp.Beauticianatyourdoorstep.view.customerModule.UpdatesActivity;
+import com.fyp.Beauticianatyourdoorstep.view.customerPanel.UpdatesActivity;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;

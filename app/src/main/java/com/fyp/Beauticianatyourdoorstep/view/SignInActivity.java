@@ -14,8 +14,8 @@ import com.fyp.Beauticianatyourdoorstep.helper.LoginManagement;
 import com.fyp.Beauticianatyourdoorstep.helper.MyConstants;
 import com.fyp.Beauticianatyourdoorstep.helper.StringHelper;
 import com.fyp.Beauticianatyourdoorstep.internetchecking.CheckInternetConnectivity;
-import com.fyp.Beauticianatyourdoorstep.view.beauticianModule.BeauticianDashboardActivity;
-import com.fyp.Beauticianatyourdoorstep.view.customerModule.CustomerDashboardActivity;
+import com.fyp.Beauticianatyourdoorstep.view.beauticianPanel.BeauticianDashboardActivity;
+import com.fyp.Beauticianatyourdoorstep.view.customerPanel.CustomerDashboardActivity;
 
 public class SignInActivity extends AppCompatActivity implements MyConstants {
     private EditText emailEd, passwordEd;

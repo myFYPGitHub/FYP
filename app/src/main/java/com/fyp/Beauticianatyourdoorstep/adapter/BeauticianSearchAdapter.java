@@ -23,7 +23,7 @@ import com.fyp.Beauticianatyourdoorstep.helper.StringHelper;
 import com.fyp.Beauticianatyourdoorstep.internetchecking.CheckInternetConnectivity;
 import com.fyp.Beauticianatyourdoorstep.model.Beautician;
 import com.fyp.Beauticianatyourdoorstep.model.BeauticianItem;
-import com.fyp.Beauticianatyourdoorstep.view.customerModule.BeauticianDetailsActivity;
+import com.fyp.Beauticianatyourdoorstep.view.customerPanel.BeauticianDetailsActivity;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.ArrayList;

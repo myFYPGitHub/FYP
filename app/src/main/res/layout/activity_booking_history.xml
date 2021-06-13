@@ -6,7 +6,7 @@
     android:id="@+id/cusBookingHistoryRoot"
     android:orientation="vertical"
     android:background="@drawable/no_data_found"
-    tools:context=".view.customerModule.BookingHistoryActivity">
+    tools:context=".view.customerPanel.BookingHistoryActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

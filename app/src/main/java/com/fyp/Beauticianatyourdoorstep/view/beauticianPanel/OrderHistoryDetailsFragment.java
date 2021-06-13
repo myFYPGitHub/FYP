@@ -1,4 +1,4 @@
-package com.fyp.Beauticianatyourdoorstep.view.beauticianModule;
+package com.fyp.Beauticianatyourdoorstep.view.beauticianPanel;
 
 import android.content.Intent;
 import android.net.Uri;

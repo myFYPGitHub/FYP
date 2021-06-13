@@ -13,36 +13,36 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.customerModule.BookingDetailsActivity" />
-        <activity android:name=".view.customerModule.BookingHistoryActivity" />
-        <activity android:name=".view.customerModule.BookingActivity" />
-        <activity android:name=".view.customerModule.BeauticianDetailsActivity" />
+        <activity android:name=".view.customerPanel.BookingDetailsActivity" />
+        <activity android:name=".view.customerPanel.BookingHistoryActivity" />
+        <activity android:name=".view.customerPanel.BookingActivity" />
+        <activity android:name=".view.customerPanel.BeauticianDetailsActivity" />
         <activity android:name=".view.MapActivity" />
-        <activity android:name=".view.customerModule.BeauticianSearchActivity" />
+        <activity android:name=".view.customerPanel.BeauticianSearchActivity" />
         <activity
-            android:name=".view.customerModule.CustomerProfileManagerActivity"
+            android:name=".view.customerPanel.CustomerProfileManagerActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".view.AppSettingsActivity" />
-        <activity android:name=".view.beauticianModule.BeauticianOrderHistoryActivity" />
-        <activity android:name=".view.beauticianModule.OrdersDetailsActivity" />
-        <activity android:name=".view.beauticianModule.BeauticianOrderRequestsActivity" />
+        <activity android:name=".view.beauticianPanel.BeauticianOrderHistoryActivity" />
+        <activity android:name=".view.beauticianPanel.OrdersDetailsActivity" />
+        <activity android:name=".view.beauticianPanel.BeauticianOrderRequestsActivity" />
         <activity
-            android:name=".view.beauticianModule.BeauticianProfileManagerActivity"
+            android:name=".view.beauticianPanel.BeauticianProfileManagerActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".view.beauticianModule.SpecializationActivity"
+            android:name=".view.beauticianPanel.SpecializationActivity"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".view.customerModule.UpdatesActivity" />
+        <activity android:name=".view.customerPanel.UpdatesActivity" />
         <activity android:name=".view.AppAboutActivity" />
-        <activity android:name=".view.customerModule.ServicesActivity" />
-        <activity android:name=".view.customerModule.CustomerDashboardActivity" />
+        <activity android:name=".view.customerPanel.ServicesActivity" />
+        <activity android:name=".view.customerPanel.CustomerDashboardActivity" />
         <activity
             android:name=".view.ForgetPasswordActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".view.RegistrationActivity"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".view.beauticianModule.BeauticianDashboardActivity" />
+        <activity android:name=".view.beauticianPanel.BeauticianDashboardActivity" />
         <activity android:name=".view.AppSplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

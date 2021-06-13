@@ -1,4 +1,4 @@
-package com.fyp.Beauticianatyourdoorstep.view.customerModule;
+package com.fyp.Beauticianatyourdoorstep.view.beauticianPanel;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,15 +12,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fyp.Beauticianatyourdoorstep.R;
-import com.fyp.Beauticianatyourdoorstep.adapter.CustomerBookingAdapter;
+import com.fyp.Beauticianatyourdoorstep.adapter.BeauticianOrdersAdapter;
 import com.fyp.Beauticianatyourdoorstep.helper.LoginManagement;
 import com.fyp.Beauticianatyourdoorstep.helper.MyConstants;
 import com.fyp.Beauticianatyourdoorstep.helper.StringHelper;
 import com.fyp.Beauticianatyourdoorstep.internetchecking.CheckInternetConnectivity;
-import com.fyp.Beauticianatyourdoorstep.model.Beautician;
 import com.fyp.Beauticianatyourdoorstep.model.Booking;
-import com.fyp.Beauticianatyourdoorstep.model.BookingItem;
 import com.fyp.Beauticianatyourdoorstep.model.DB;
+import com.fyp.Beauticianatyourdoorstep.model.OrderItem;
+import com.fyp.Beauticianatyourdoorstep.model.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,24 +29,24 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class BookingActivity extends AppCompatActivity implements MyConstants {
-    private CustomerBookingAdapter adapter;
-    private final ArrayList<BookingItem> list = new ArrayList<>();
-    private static DatabaseReference parent_node, beauticianRef;
+public class BeauticianOrderRequestsActivity extends AppCompatActivity implements MyConstants {
+    private BeauticianOrdersAdapter adapter;
+    private final ArrayList<OrderItem> list = new ArrayList<>();
+    private static DatabaseReference parent_node, customerRef;
     private Context context;
-    private LinearLayout customerBookingRoot;
+    private LinearLayout appointmentActivityRoot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_customer_booking);
-        context = BookingActivity.this;
-        customerBookingRoot = findViewById(R.id.customerBookingRoot);
-        RecyclerView recyclerView = findViewById(R.id.customerBookingRecyclerView);
+        setContentView(R.layout.activity_order_requests);
+        context = BeauticianOrderRequestsActivity.this;
+        appointmentActivityRoot = findViewById(R.id.appointmentActivityRoot);
+        RecyclerView recyclerView = findViewById(R.id.orders_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setHasFixedSize(true);
         parent_node = DB.getRtDBRootNodeReference();
-        adapter = new CustomerBookingAdapter(BookingActivity.this, list);
+        adapter = new BeauticianOrdersAdapter(BeauticianOrderRequestsActivity.this, list);
         recyclerView.setAdapter(adapter);
         findViewById(R.id.backBtn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,11 +61,11 @@ public class BookingActivity extends AppCompatActivity implements MyConstants {
         super.onStart();
         list.clear();
         adapter.notifyDataSetChanged();
-        customerBookingRoot.setBackgroundResource(R.drawable.no_data_found);
+        appointmentActivityRoot.setBackgroundResource(R.drawable.no_data_found);
         if (CheckInternetConnectivity.isInternetConnected(context)) {
             try {
                 String myEmail = new LoginManagement(context).getLoginEmail();
-                Query checkMyBooking = parent_node.child(NODE_BOOKING).orderByChild(BOOKING_CUSTOMER_EMAIL).equalTo(myEmail);
+                Query checkMyBooking = parent_node.child(NODE_BOOKING).orderByChild(BOOKING_BEAUTICIAN_EMAIL).equalTo(myEmail);
                 checkMyBooking.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -75,17 +75,17 @@ public class BookingActivity extends AppCompatActivity implements MyConstants {
                                 if (!(booking_status.equals(ORDER_PENDING) || booking_status.equals(ORDER_PROGRESS))) {
                                     continue;
                                 }
-                                String beauticianId = orderData.child(BOOKING_BEAUTICIAN_EMAIL).getValue(String.class);
-                                beauticianId = StringHelper.removeInvalidCharsFromIdentifier(beauticianId);
-                                beauticianRef = parent_node.child(NODE_USER).child(beauticianId);
-                                beauticianRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                String customerId = orderData.child(BOOKING_CUSTOMER_EMAIL).getValue(String.class);
+                                customerId = StringHelper.removeInvalidCharsFromIdentifier(customerId);
+                                customerRef = parent_node.child(NODE_USER).child(customerId);
+                                customerRef.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                                         if (snapshot.exists()) {
                                             Booking booking = orderData.getValue(Booking.class);
-                                            Beautician beautician = snapshot.getValue(Beautician.class);
-                                            list.add(new BookingItem(beautician, booking));
-                                            customerBookingRoot.setBackgroundResource(R.color.colorWhite);
+                                            User customer = snapshot.getValue(User.class);
+                                            list.add(new OrderItem(customer, booking));
+                                            appointmentActivityRoot.setBackgroundResource(R.color.colorWhite);
                                         }
                                         adapter.notifyDataSetChanged();
                                     }

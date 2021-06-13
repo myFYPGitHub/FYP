@@ -1,4 +1,4 @@
-package com.fyp.Beauticianatyourdoorstep.view.beauticianModule;
+package com.fyp.Beauticianatyourdoorstep.view.beauticianPanel;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -29,8 +29,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-public class HairServicesFragment extends Fragment {
-    private final int fieldsLength = 3;
+public class WaxingServicesFragment extends Fragment {
+    private final int fieldsLength = 5;
     private final TextView[] serviceNameTv = new TextView[fieldsLength];
     private final EditText[] servicePriceEd = new EditText[fieldsLength];
     private final SwitchMaterial[] serviceSwitch = new SwitchMaterial[fieldsLength];
@@ -38,16 +38,22 @@ public class HairServicesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_hair_services, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_waxing_services, container, false);
         serviceNameTv[0] = rootView.findViewById(R.id.service1Name);
         serviceNameTv[1] = rootView.findViewById(R.id.service2Name);
         serviceNameTv[2] = rootView.findViewById(R.id.service3Name);
+        serviceNameTv[3] = rootView.findViewById(R.id.service4Name);
+        serviceNameTv[4] = rootView.findViewById(R.id.service5Name);
         servicePriceEd[0] = rootView.findViewById(R.id.service1Price);
         servicePriceEd[1] = rootView.findViewById(R.id.service2Price);
         servicePriceEd[2] = rootView.findViewById(R.id.service3Price);
+        servicePriceEd[3] = rootView.findViewById(R.id.service4Price);
+        servicePriceEd[4] = rootView.findViewById(R.id.service5Price);
         serviceSwitch[0] = rootView.findViewById(R.id.service1Switch);
         serviceSwitch[1] = rootView.findViewById(R.id.service2Switch);
         serviceSwitch[2] = rootView.findViewById(R.id.service3Switch);
+        serviceSwitch[3] = rootView.findViewById(R.id.service4Switch);
+        serviceSwitch[4] = rootView.findViewById(R.id.service5Switch);
 
         if (CheckInternetConnectivity.isInternetConnected(getActivity())) {
             checkBeauticianService(getActivity());
@@ -82,6 +88,8 @@ public class HairServicesFragment extends Fragment {
                     service(0);
                     service(1);
                     service(2);
+                    service(3);
+                    service(4);
                     progDialog.dismissDialog();
                 }
 

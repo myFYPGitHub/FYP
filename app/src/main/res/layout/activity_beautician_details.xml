@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".view.customerModule.BeauticianDetailsActivity">
+    tools:context=".view.customerPanel.BeauticianDetailsActivity">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
