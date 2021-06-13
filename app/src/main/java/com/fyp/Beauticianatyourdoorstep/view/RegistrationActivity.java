@@ -142,7 +142,7 @@ public class RegistrationActivity extends AppCompatActivity implements MyConstan
             Toast.makeText(this, "Please Select a Category", Toast.LENGTH_LONG).show();
             return false;
         }
-        if (specializationIndex == 0) {
+        if (categoryIndex == 1 && specializationIndex == 0) {
             Toast.makeText(this, "Please Select your Specialization", Toast.LENGTH_LONG).show();
             return false;
         }
