@@ -23,9 +23,9 @@
             android:name=".view.customerModule.CustomerProfileManagerActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".view.AppSettingsActivity" />
-        <activity android:name=".view.beauticianModule.BeauticianAppointmentHistoryActivity" />
+        <activity android:name=".view.beauticianModule.BeauticianOrderHistoryActivity" />
         <activity android:name=".view.beauticianModule.OrdersDetailsActivity" />
-        <activity android:name=".view.beauticianModule.AppointmentActivity" />
+        <activity android:name=".view.beauticianModule.BeauticianOrderRequestsActivity" />
         <activity
             android:name=".view.beauticianModule.BeauticianProfileManagerActivity"
             android:windowSoftInputMode="stateHidden" />

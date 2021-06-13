@@ -102,7 +102,7 @@ public class BeauticianDashboardActivity extends AppCompatActivity implements My
             @Override
             public void onClick(View view) {
                 if (CheckInternetConnectivity.isInternetConnected(context)) {
-                    startActivity(activity_opener.setClass(context, BeauticianAppointmentHistoryActivity.class));
+                    startActivity(activity_opener.setClass(context, BeauticianOrderHistoryActivity.class));
                 } else {
                     Toast.makeText(context, MyConstants.NO_INTERNET_CONNECTION, Toast.LENGTH_SHORT).show();
                 }
@@ -112,7 +112,7 @@ public class BeauticianDashboardActivity extends AppCompatActivity implements My
             @Override
             public void onClick(View view) {
                 if (CheckInternetConnectivity.isInternetConnected(context)) {
-                    startActivity(activity_opener.setClass(context, AppointmentActivity.class));
+                    startActivity(activity_opener.setClass(context, BeauticianOrderRequestsActivity.class));
                 } else {
                     Toast.makeText(context, MyConstants.NO_INTERNET_CONNECTION, Toast.LENGTH_SHORT).show();
                 }

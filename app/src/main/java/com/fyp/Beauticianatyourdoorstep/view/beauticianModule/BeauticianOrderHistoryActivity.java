@@ -2,11 +2,12 @@ package com.fyp.Beauticianatyourdoorstep.view.beauticianModule;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,25 +29,31 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class BeauticianAppointmentHistoryActivity extends AppCompatActivity implements MyConstants {
+public class BeauticianOrderHistoryActivity extends AppCompatActivity implements MyConstants {
     private BeauticianOrdersAdapter adapter;
     private final ArrayList<OrderItem> list = new ArrayList<>();
     private static DatabaseReference parent_node, customerRef;
     private Context context;
-    private ConstraintLayout beauticianHistoryRoot;
+    private LinearLayout beauticianHistoryRoot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_beautician_appointment_history);
-        context = BeauticianAppointmentHistoryActivity.this;
+        setContentView(R.layout.activity_beautician_order_history);
+        context = BeauticianOrderHistoryActivity.this;
         beauticianHistoryRoot = findViewById(R.id.beauticianHistoryRoot);
         RecyclerView recyclerView = findViewById(R.id.beautician_history_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setHasFixedSize(true);
         parent_node = DB.getRtDBRootNodeReference();
-        adapter = new BeauticianOrdersAdapter(BeauticianAppointmentHistoryActivity.this, list);
+        adapter = new BeauticianOrdersAdapter(BeauticianOrderHistoryActivity.this, list);
         recyclerView.setAdapter(adapter);
+        findViewById(R.id.backBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     @Override

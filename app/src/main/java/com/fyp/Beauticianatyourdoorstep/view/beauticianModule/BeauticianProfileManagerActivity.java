@@ -197,7 +197,8 @@ public class BeauticianProfileManagerActivity extends AppCompatActivity implemen
                         public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                             progDialog.showDialog();
                             if (b) {
-                                dbRef.child(BEAUTICIAN_AVAILABILITY).setValue(true).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                dbRef.child(BEAUTICIAN_AVAILABILITY).setValue(true)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void unused) {
                                         beautyMgrSwitch.setText("Available");
@@ -205,7 +206,8 @@ public class BeauticianProfileManagerActivity extends AppCompatActivity implemen
                                     }
                                 });
                             } else {
-                                dbRef.child(BEAUTICIAN_AVAILABILITY).setValue(false).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                dbRef.child(BEAUTICIAN_AVAILABILITY).setValue(false)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void unused) {
                                         beautyMgrSwitch.setText("Unavailable");

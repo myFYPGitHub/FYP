@@ -2,11 +2,12 @@ package com.fyp.Beauticianatyourdoorstep.view.beauticianModule;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,25 +29,31 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class AppointmentActivity extends AppCompatActivity implements MyConstants {
+public class BeauticianOrderRequestsActivity extends AppCompatActivity implements MyConstants {
     private BeauticianOrdersAdapter adapter;
     private final ArrayList<OrderItem> list = new ArrayList<>();
     private static DatabaseReference parent_node, customerRef;
     private Context context;
-    private ConstraintLayout appointmentActivityRoot;
+    private LinearLayout appointmentActivityRoot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_appointment);
-        context = AppointmentActivity.this;
+        setContentView(R.layout.activity_order_requests);
+        context = BeauticianOrderRequestsActivity.this;
         appointmentActivityRoot = findViewById(R.id.appointmentActivityRoot);
         RecyclerView recyclerView = findViewById(R.id.orders_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setHasFixedSize(true);
         parent_node = DB.getRtDBRootNodeReference();
-        adapter = new BeauticianOrdersAdapter(AppointmentActivity.this, list);
+        adapter = new BeauticianOrdersAdapter(BeauticianOrderRequestsActivity.this, list);
         recyclerView.setAdapter(adapter);
+        findViewById(R.id.backBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     @Override
