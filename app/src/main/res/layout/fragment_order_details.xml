@@ -198,6 +198,7 @@
                     android:textColor="@color/colorBlack"
                     android:textSize="16sp" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -221,6 +222,7 @@
                     android:textColor="@color/colorBlack"
                     android:textSize="16sp" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

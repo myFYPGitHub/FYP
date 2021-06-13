@@ -29,17 +29,6 @@ public final class StringHelper {
         return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
     }
 
-    public static CharSequence toAlphaNumeric(CharSequence source) {
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < source.length(); i++) {
-            char c = source.charAt(i);
-            if (Character.isLetterOrDigit(c)) {
-                builder.append(c);
-            }
-        }
-        return builder.toString();
-    }
-
     public static String capitalizeString(String capString) {
         StringBuffer capBuffer = new StringBuffer();
         Matcher capMatcher = Pattern.compile("([a-z])([a-z]*)", Pattern.CASE_INSENSITIVE).matcher(capString);

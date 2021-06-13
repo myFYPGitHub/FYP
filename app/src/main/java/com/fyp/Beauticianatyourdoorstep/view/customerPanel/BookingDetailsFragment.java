@@ -83,23 +83,39 @@ public class BookingDetailsFragment extends Fragment implements MyConstants {
                                 progDialog.showDialog();
                                 if (!customInputDialog.getInputText().equals("")) {
                                     if (CheckInternetConnectivity.isInternetConnected(context)) {
-                                        booking_node.child(BOOKING_STATUS).setValue(ORDER_CANCELLED)
-                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                    @Override
-                                                    public void onSuccess(Void unused) {
-                                                        booking_node.child(BOOKING_BEAUTICIAN_STATUS).setValue(ORDER_CANCELLED);
-                                                        booking_node.child(BOOKING_CUSTOMER_STATUS).setValue(ORDER_CANCELLED);
-                                                        cancelBtn.setVisibility(View.GONE);
-                                                        bookingStatusTv.setText(ORDER_CANCELLED);
-                                                        booking_node.child(BOOKING_CANCELLATION_REASON).setValue(customInputDialog.getInputText());
-                                                        progDialog.dismissDialog();
-                                                        Toast.makeText(context, "Booking Cancelled", Toast.LENGTH_SHORT).show();
-                                                    }
-                                                }).addOnFailureListener(new OnFailureListener() {
+                                        booking_node.child(BOOKING_STATUS).addListenerForSingleValueEvent(new ValueEventListener() {
                                             @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Toast.makeText(context, "Cancellation Failed", Toast.LENGTH_SHORT).show();
-                                                progDialog.dismissDialog();
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                String status = snapshot.getValue(String.class);
+                                                if (status.equals(ORDER_PENDING) || status.equals(ORDER_PROGRESS)) {
+                                                    booking_node.child(BOOKING_STATUS).setValue(ORDER_CANCELLED)
+                                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                @Override
+                                                                public void onSuccess(Void unused) {
+                                                                    cancelBtn.setVisibility(View.GONE);
+                                                                    booking_node.child(BOOKING_BEAUTICIAN_STATUS).setValue(ORDER_CANCELLED);
+                                                                    booking_node.child(BOOKING_CUSTOMER_STATUS).setValue(ORDER_CANCELLED);
+                                                                    bookingStatusTv.setText(ORDER_CANCELLED);
+                                                                    booking_node.child(BOOKING_CANCELLATION_REASON).setValue(customInputDialog.getInputText());
+                                                                    progDialog.dismissDialog();
+                                                                    Toast.makeText(context, "Booking Cancelled", Toast.LENGTH_SHORT).show();
+                                                                }
+                                                            }).addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                            Toast.makeText(context, "Cancellation Failed", Toast.LENGTH_SHORT).show();
+                                                            progDialog.dismissDialog();
+                                                        }
+                                                    });
+                                                } else {
+                                                    cancelBtn.setVisibility(View.GONE);
+                                                    progDialog.dismissDialog();
+                                                    Toast.makeText(context, "Cancellation Failed!\nThis booking has already cancelled or completed by beautician", Toast.LENGTH_LONG).show();
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
                                             }
                                         });
                                     } else {
@@ -121,11 +137,11 @@ public class BookingDetailsFragment extends Fragment implements MyConstants {
                 ratingDialog.setSendBtnListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (ratingDialog.getRating() == 0) {
+                        /*if (ratingDialog.getRating() == 0) {
                             Toast.makeText(context, "Rating the Service is required", Toast.LENGTH_SHORT).show();
                             ratingDialog.dismissDialog();
                             return;
-                        }
+                        }*/
                         CustomProgressDialog progDialog = new CustomProgressDialog(context, "Sending Feedback . . .");
                         progDialog.showDialog();
                         if (CheckInternetConnectivity.isInternetConnected(context)) {
@@ -139,32 +155,32 @@ public class BookingDetailsFragment extends Fragment implements MyConstants {
                                         new_booking.setServiceRating(ratingDialog.getRating());
                                         new_booking.setServiceReview(ratingDialog.getReview());
                                         booking_node.setValue(new_booking).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void unused) {
+                                                String beauticianEmailId = StringHelper.removeInvalidCharsFromIdentifier(beautician.getEmail());
+                                                DatabaseReference beauticianRef = parent_node.child(NODE_USER).child(beauticianEmailId);
+                                                beauticianRef.addListenerForSingleValueEvent(new ValueEventListener() {
                                                     @Override
-                                                    public void onSuccess(Void unused) {
-                                                        String beauticianEmailId = StringHelper.removeInvalidCharsFromIdentifier(beautician.getEmail());
-                                                        DatabaseReference beauticianRef = parent_node.child(NODE_USER).child(beauticianEmailId);
-                                                        beauticianRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                                                            @Override
-                                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                                                if (snapshot.exists()) {
-                                                                    Beautician object = snapshot.getValue(Beautician.class);
-                                                                    int total_rating = object.getTotalRating();
-                                                                    int num_of_rating = object.getNumOfRating();
-                                                                    num_of_rating += 1;
-                                                                    beauticianRef.child(USER_TOTAL_RATING).setValue(total_rating + ratingDialog.getRating());
-                                                                    beauticianRef.child(USER_NUM_OF_RATING).setValue(num_of_rating);
-                                                                    completeBtn.setVisibility(View.GONE);
-                                                                    bookingStatusTv.setText(ORDER_COMPLETED);
-                                                                    progDialog.dismissDialog();
-                                                                }
-                                                            }
+                                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                        if (snapshot.exists()) {
+                                                            Beautician object = snapshot.getValue(Beautician.class);
+                                                            int total_rating = object.getTotalRating();
+                                                            int num_of_rating = object.getNumOfRating();
+                                                            num_of_rating += 1;
+                                                            beauticianRef.child(USER_TOTAL_RATING).setValue(total_rating + ratingDialog.getRating());
+                                                            beauticianRef.child(USER_NUM_OF_RATING).setValue(num_of_rating);
+                                                            completeBtn.setVisibility(View.GONE);
+                                                            bookingStatusTv.setText(ORDER_COMPLETED);
+                                                            progDialog.dismissDialog();
+                                                        }
+                                                    }
 
-                                                            @Override
-                                                            public void onCancelled(@NonNull DatabaseError error) {
-                                                            }
-                                                        });
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError error) {
                                                     }
                                                 });
+                                            }
+                                        });
                                     }
                                 }
 

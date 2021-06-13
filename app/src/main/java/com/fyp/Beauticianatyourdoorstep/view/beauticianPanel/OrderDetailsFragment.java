@@ -36,7 +36,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 public class OrderDetailsFragment extends Fragment implements MyConstants {
-    private TextView serviceNameTv, serviceDetailsTv, cusGenderTv, cusNameTv, cusAddressTv,cusAgeTv, cusContactTv, serviceDateTv, serviceTimingTv, bookingStatusTv, cusCityTv;
+    private TextView serviceNameTv, serviceDetailsTv, cusGenderTv, cusNameTv, cusAddressTv, cusAgeTv, cusContactTv, serviceDateTv, serviceTimingTv, bookingStatusTv, cusCityTv;
     private RatingBar ratingBar;
     private RoundedImageView profile_pic;
     private User customer;
@@ -81,25 +81,39 @@ public class OrderDetailsFragment extends Fragment implements MyConstants {
                             public void onClick(View view) {
                                 if (!customInputDialog.getInputText().equals("")) {
                                     if (CheckInternetConnectivity.isInternetConnected(context)) {
-                                        booking_node.child(BOOKING_STATUS).setValue(ORDER_CANCELLED)
-                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                    @Override
-                                                    public void onSuccess(Void unused) {
-                                                        booking_node.child(BOOKING_BEAUTICIAN_STATUS).setValue(ORDER_CANCELLED);
-                                                        booking_node.child(BOOKING_CUSTOMER_STATUS).setValue(ORDER_CANCELLED);
-                                                        cancelBtn.setVisibility(View.GONE);
-                                                        acceptBtn.setVisibility(View.GONE);
-                                                        completeBtn.setVisibility(View.GONE);
-                                                        bookingStatusTv.setText(ORDER_CANCELLED);
-                                                        booking_node.child(BOOKING_CANCELLATION_REASON).setValue(customInputDialog.getInputText());
-                                                        Toast.makeText(context, "Booking Cancelled", Toast.LENGTH_SHORT).show();
-                                                    }
-                                                });
+                                        booking_node.child(BOOKING_STATUS).addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                String status = snapshot.getValue(String.class);
+                                                if (status.equals(ORDER_PENDING) || status.equals(ORDER_PROGRESS)) {
+                                                    booking_node.child(BOOKING_STATUS).setValue(ORDER_CANCELLED)
+                                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                @Override
+                                                                public void onSuccess(Void unused) {
+                                                                    booking_node.child(BOOKING_BEAUTICIAN_STATUS).setValue(ORDER_CANCELLED);
+                                                                    booking_node.child(BOOKING_CUSTOMER_STATUS).setValue(ORDER_CANCELLED);
+                                                                    cancelBtn.setVisibility(View.GONE);
+                                                                    acceptBtn.setVisibility(View.GONE);
+                                                                    completeBtn.setVisibility(View.GONE);
+                                                                    bookingStatusTv.setText(ORDER_CANCELLED);
+                                                                    booking_node.child(BOOKING_CANCELLATION_REASON).setValue(customInputDialog.getInputText());
+                                                                    Toast.makeText(context, "Booking Cancelled", Toast.LENGTH_LONG).show();
+                                                                }
+                                                            });
+                                                } else {
+                                                    Toast.makeText(context, "Sorry! This booking is already cancelled by requested customer", Toast.LENGTH_LONG).show();
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+                                            }
+                                        });
                                     } else {
                                         Toast.makeText(context, MyConstants.NO_INTERNET_CONNECTION, Toast.LENGTH_SHORT).show();
                                     }
                                 } else {
-                                    Toast.makeText(context, "Cancellation Reason is mandatory", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, "Cancellation Reason is mandatory", Toast.LENGTH_LONG).show();
                                 }
                                 customInputDialog.dismissDialog();
                             }
@@ -115,17 +129,31 @@ public class OrderDetailsFragment extends Fragment implements MyConstants {
                             @Override
                             public void onClick(View view) {
                                 if (CheckInternetConnectivity.isInternetConnected(context)) {
-                                    booking_node.child(BOOKING_BEAUTICIAN_STATUS).setValue(ORDER_PROGRESS)
-                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void unused) {
-                                                    booking_node.child(BOOKING_STATUS).setValue(ORDER_PROGRESS);
-                                                    acceptBtn.setVisibility(View.GONE);
-                                                    completeBtn.setVisibility(View.VISIBLE);
-                                                    bookingStatusTv.setText(ORDER_PROGRESS);
-                                                    Toast.makeText(context, "Booking Accepted", Toast.LENGTH_SHORT).show();
-                                                }
-                                            });
+                                    booking_node.child(BOOKING_STATUS).addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            String status = snapshot.getValue(String.class);
+                                            if (status.equals(ORDER_PENDING)) {
+                                                booking_node.child(BOOKING_BEAUTICIAN_STATUS).setValue(ORDER_PROGRESS)
+                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                            @Override
+                                                            public void onSuccess(Void unused) {
+                                                                booking_node.child(BOOKING_STATUS).setValue(ORDER_PROGRESS);
+                                                                acceptBtn.setVisibility(View.GONE);
+                                                                completeBtn.setVisibility(View.VISIBLE);
+                                                                bookingStatusTv.setText(ORDER_PROGRESS);
+                                                                Toast.makeText(context, "Booking Accepted", Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        });
+                                            } else {
+                                                Toast.makeText(context, "Sorry! This booking is already cancelled by requested customer", Toast.LENGTH_LONG).show();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+                                        }
+                                    });
                                 } else {
                                     Toast.makeText(context, MyConstants.NO_INTERNET_CONNECTION, Toast.LENGTH_SHORT).show();
                                 }
@@ -141,44 +169,59 @@ public class OrderDetailsFragment extends Fragment implements MyConstants {
                 ratingDialog.setSendBtnListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (ratingDialog.getRating() == 0) {
+                        /*if (ratingDialog.getRating() == 0) {
                             Toast.makeText(context, "Rating your customer is required", Toast.LENGTH_SHORT).show();
                             ratingDialog.dismissDialog();
                             return;
-                        }
+                        }*/
                         CustomProgressDialog progDialog = new CustomProgressDialog(context, "Sending Feedback . . .");
                         progDialog.showDialog();
                         if (CheckInternetConnectivity.isInternetConnected(context)) {
-                            booking_node.child(BOOKING_BEAUTICIAN_STATUS).setValue(ORDER_COMPLETED)
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void unused) {
-                                            String customerEmailId = StringHelper.removeInvalidCharsFromIdentifier(customer.getEmail());
-                                            DatabaseReference customerRef = parent_node.child(NODE_USER).child(customerEmailId);
-                                            customerRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                                                @Override
-                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                                    if (snapshot.exists()) {
-                                                        User cusObject = snapshot.getValue(Beautician.class);
-                                                        int total_rating = cusObject.getTotalRating();
-                                                        int num_of_rating = cusObject.getNumOfRating();
-                                                        num_of_rating += 1;
-                                                        customerRef.child(USER_TOTAL_RATING).setValue(total_rating + ratingDialog.getRating());
-                                                        customerRef.child(USER_NUM_OF_RATING).setValue(num_of_rating);
-                                                        completeBtn.setVisibility(View.GONE);
-                                                        cancelBtn.setVisibility(View.GONE);
-                                                        bookingStatusTv.setText(ORDER_COMPLETED);
-                                                        Toast.makeText(context, "Please wait for Customer Response", Toast.LENGTH_SHORT).show();
-                                                        progDialog.dismissDialog();
-                                                    }
-                                                }
+                            booking_node.child(BOOKING_STATUS).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    String status = snapshot.getValue(String.class);
+                                    if (status.equals(ORDER_PENDING) || status.equals(ORDER_PROGRESS)) {
+                                        booking_node.child(BOOKING_BEAUTICIAN_STATUS).setValue(ORDER_COMPLETED)
+                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void unused) {
+                                                        String customerEmailId = StringHelper.removeInvalidCharsFromIdentifier(customer.getEmail());
+                                                        DatabaseReference customerRef = parent_node.child(NODE_USER).child(customerEmailId);
+                                                        customerRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                            @Override
+                                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                                if (snapshot.exists()) {
+                                                                    User cusObject = snapshot.getValue(Beautician.class);
+                                                                    int total_rating = cusObject.getTotalRating();
+                                                                    int num_of_rating = cusObject.getNumOfRating();
+                                                                    num_of_rating += 1;
+                                                                    customerRef.child(USER_TOTAL_RATING).setValue(total_rating + ratingDialog.getRating());
+                                                                    customerRef.child(USER_NUM_OF_RATING).setValue(num_of_rating);
+                                                                    completeBtn.setVisibility(View.GONE);
+                                                                    cancelBtn.setVisibility(View.GONE);
+                                                                    bookingStatusTv.setText(ORDER_COMPLETED);
+                                                                    Toast.makeText(context, "Please wait for Customer Response", Toast.LENGTH_SHORT).show();
+                                                                    progDialog.dismissDialog();
+                                                                }
+                                                            }
 
-                                                @Override
-                                                public void onCancelled(@NonNull DatabaseError error) {
-                                                }
-                                            });
-                                        }
-                                    });
+                                                            @Override
+                                                            public void onCancelled(@NonNull DatabaseError error) {
+                                                            }
+                                                        });
+                                                    }
+                                                });
+                                    } else {
+                                        progDialog.dismissDialog();
+                                        Toast.makeText(context, "Sorry! This booking is already cancelled by requested customer", Toast.LENGTH_LONG).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+                                }
+                            });
                         } else {
                             progDialog.dismissDialog();
                             Toast.makeText(context, MyConstants.NO_INTERNET_CONNECTION, Toast.LENGTH_SHORT).show();
