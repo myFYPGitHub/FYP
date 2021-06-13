@@ -40,10 +40,9 @@ public final class ServerLogic implements MyConstants {
     private static final StorageReference storageReference;
     private static String email_identifier;
     private static CustomProgressDialog progDialog;
-    @SuppressLint("SimpleDateFormat")
-    private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
     static {
+        //This block initialize static variables
         realtimeDatabaseReference = DB.getRtDBRootNodeReference();
         storageReference = DB.getStorageReference();
     }

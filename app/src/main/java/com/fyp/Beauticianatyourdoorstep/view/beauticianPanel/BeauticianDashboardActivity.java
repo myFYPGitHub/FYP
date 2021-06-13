@@ -174,7 +174,6 @@ public class BeauticianDashboardActivity extends AppCompatActivity implements My
 
     private void logout() {
         final CustomConfirmDialog confirmDialog = new CustomConfirmDialog(context, "Are you sure to Logout?");
-
         confirmDialog.setOkBtnText("Logout")
                 .setOkBtnListener(new View.OnClickListener() {
                     @Override
