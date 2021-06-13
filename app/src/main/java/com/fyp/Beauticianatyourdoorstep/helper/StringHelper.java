@@ -61,14 +61,6 @@ public final class StringHelper {
         return validString;
     }
 
-    public static String createIdentifierFromName(@NonNull String str) {
-        if (isEmpty(str)) {
-            return null;
-        }
-        String tmp_id = str.replace(" ", "");
-        return removeInvalidCharsFromIdentifier(tmp_id);
-    }
-
     public static String toMD5String(String string) {
         MessageDigest md5;
         try {

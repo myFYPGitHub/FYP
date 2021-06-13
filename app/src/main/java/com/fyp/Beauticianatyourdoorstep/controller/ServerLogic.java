@@ -53,9 +53,7 @@ public final class ServerLogic implements MyConstants {
         progDialog.showDialog();
         try {
             Query checkDuplicateAcc = realtimeDatabaseReference.child(NODE_USER).orderByChild(USER_EMAIL).equalTo(user.getEmail());
-
             email_identifier = StringHelper.removeInvalidCharsFromIdentifier(user.getEmail());
-
             checkDuplicateAcc.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

@@ -76,11 +76,11 @@ public class RegistrationActivity extends AppCompatActivity implements MyConstan
             if (CheckInternetConnectivity.isInternetConnected(this)) {
                 password = StringHelper.toMD5String(password);
                 if (categoryIndex == 1) {
-                    User user = new Beautician(fname, lname, age, gender, email, password, contact, address, city, category, specialization, false);
-                    ServerLogic.createNewUserAccount(RegistrationActivity.this, user);
+                    User beautician = new Beautician(fname, lname, age, gender, email, password, contact, address, city, category, specialization, false);
+                    ServerLogic.createNewUserAccount(RegistrationActivity.this, beautician);
                 } else if (categoryIndex == 2) {
-                    User user = new User(fname, lname, age, gender, email, password, contact, address, city, category);
-                    ServerLogic.createNewUserAccount(RegistrationActivity.this, user);
+                    User customer = new User(fname, lname, age, gender, email, password, contact, address, city, category);
+                    ServerLogic.createNewUserAccount(RegistrationActivity.this, customer);
                 }
             } else {
                 Toast.makeText(this, MyConstants.NO_INTERNET_CONNECTION, Toast.LENGTH_SHORT).show();
