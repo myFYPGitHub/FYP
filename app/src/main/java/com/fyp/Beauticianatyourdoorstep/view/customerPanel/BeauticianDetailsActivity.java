@@ -46,7 +46,6 @@ public class BeauticianDetailsActivity extends AppCompatActivity implements MyCo
     private RoundedImageView profile_pic;
     private Beautician beautician;
     private ArrayList<BeauticianService> services;
-    private Button requestBookingBtn;
     private static DatabaseReference parent_node;
     private Context context;
     private LinearLayout services_container;
@@ -71,7 +70,7 @@ public class BeauticianDetailsActivity extends AppCompatActivity implements MyCo
         ratingBar = findViewById(R.id.beauticianDetails_rating);
         profile_pic = findViewById(R.id.beauticianDetails_Dp);
         services_container = findViewById(R.id.services_container);
-        requestBookingBtn = findViewById(R.id.beauticianDetails_requestBookingBtn);
+        Button requestBookingBtn = findViewById(R.id.beauticianDetails_requestBookingBtn);
         fillBeauticianData();
         drawBeauticianServices();
         requestBookingBtn.setOnClickListener(new View.OnClickListener() {
@@ -144,6 +143,10 @@ public class BeauticianDetailsActivity extends AppCompatActivity implements MyCo
                 });
             }
         });
+    }
+
+    private boolean isDateTimeValid(String date, String startTime, String endTime) {
+        return false;
     }
 
     private void fillBeauticianData() {

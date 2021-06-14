@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class BeauticianItem implements Serializable {
-    private Beautician beautician;
-    private ArrayList<BeauticianService> services;
+    private final Beautician beautician;
+    private final ArrayList<BeauticianService> services;
 
     public BeauticianItem(Beautician beautician, ArrayList<BeauticianService> services) {
         this.beautician = beautician;

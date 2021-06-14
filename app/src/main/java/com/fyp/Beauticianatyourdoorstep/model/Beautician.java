@@ -1,6 +1,6 @@
 package com.fyp.Beauticianatyourdoorstep.model;
 
-public class Beautician extends User {
+public class Beautician extends User implements BeauticianInterface {
     private String description, specialization;
     private Boolean availability;
 
@@ -25,5 +25,4 @@ public class Beautician extends User {
     public Boolean getAvailability() {
         return availability;
     }
-
 }

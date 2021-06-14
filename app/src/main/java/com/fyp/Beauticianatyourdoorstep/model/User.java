@@ -24,10 +24,6 @@ public class User extends Person {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -36,24 +32,12 @@ public class User extends Person {
         return contact;
     }
 
-    public void setContact(String contact) {
-        this.contact = contact;
-    }
-
     public String getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
     public String getCity() {
         return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
     }
 
     public String getCategory() {
@@ -64,31 +48,15 @@ public class User extends Person {
         return profilePicStorageId;
     }
 
-    public void setProfilePicStorageId(String profilePicStorageId) {
-        this.profilePicStorageId = profilePicStorageId;
-    }
-
     public Integer getTotalRating() {
         return totalRating;
-    }
-
-    public void setTotalRating(Integer totalRating) {
-        this.totalRating = totalRating;
     }
 
     public Integer getNumOfRating() {
         return numOfRating;
     }
 
-    public void setNumOfRating(Integer numOfRating) {
-        this.numOfRating = numOfRating;
-    }
-
     public String getProfilePicUri() {
         return profilePicUri;
-    }
-
-    public void setProfilePicUri(String profilePicUri) {
-        this.profilePicUri = profilePicUri;
     }
 }

@@ -1,12 +1,11 @@
 package com.fyp.Beauticianatyourdoorstep.model;
 
-import java.io.Serializable;
-
-public class Booking implements Serializable {
+public class Booking implements BookingInterface {
     private String bookingId, customerEmail, beauticianEmail, serviceName, serviceDetails, bookingBeauticianStatus, bookingCustomerStatus, bookingStatus, requestDate, startTime, endTime, cancellationReason, serviceReview;
     private Integer serviceRating;
 
     public Booking() {
+        //Required Constructor for Firebase
     }
 
     public Booking(String bookingId, String customerEmail, String beauticianEmail, String serviceName, String serviceDetails, String requestDate, String startTime, String endTime) {

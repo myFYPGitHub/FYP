@@ -1,5 +1,6 @@
 package com.fyp.Beauticianatyourdoorstep.controller;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -32,11 +33,15 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.text.SimpleDateFormat;
+
 public final class ServerLogic implements MyConstants {
     private static final DatabaseReference realtimeDatabaseReference;
     private static final StorageReference storageReference;
     private static String email_identifier;
     private static CustomProgressDialog progDialog;
+    @SuppressLint("SimpleDateFormat")
+    private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
     static {
         //This block initialize static variables
