@@ -30,7 +30,6 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import java.util.ArrayList;
 
 public class BeauticianOrdersAdapter extends RecyclerView.Adapter<BeauticianOrdersAdapter.ViewHolder> implements MyConstants {
-
     private final Activity activity;
     private final ArrayList<OrderItem> list;
     private static final Intent activity_opener = new Intent();

@@ -62,9 +62,9 @@ public class HairServicesFragment extends Fragment {
         progDialog.showDialog();
         try {
             String email_identifier = new LoginManagement(context).getEmailIdentifier();
-            Query checkAccount = realtimeDatabaseReference.child(MyConstants.NODE_USER).child(email_identifier)
+            Query checkServices = realtimeDatabaseReference.child(MyConstants.NODE_USER).child(email_identifier)
                     .child(MyConstants.NODE_BEAUTICIAN_SERVICES);
-            checkAccount.addListenerForSingleValueEvent(new ValueEventListener() {
+            checkServices.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {

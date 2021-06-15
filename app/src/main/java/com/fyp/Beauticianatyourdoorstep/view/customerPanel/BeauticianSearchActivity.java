@@ -3,6 +3,7 @@ package com.fyp.Beauticianatyourdoorstep.view.customerPanel;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
@@ -76,6 +77,14 @@ public class BeauticianSearchActivity extends AppCompatActivity implements MyCon
             }
         });
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.beautician_search_menu,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
 
     private void searchBeautician(String toSearch) {
         if (CheckInternetConnectivity.isInternetConnected(context)) {
