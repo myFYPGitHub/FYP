@@ -19,7 +19,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.fyp.Beauticianatyourdoorstep.R;
-import com.fyp.Beauticianatyourdoorstep.controller.ServerLogic;
 import com.fyp.Beauticianatyourdoorstep.helper.LoginManagement;
 import com.fyp.Beauticianatyourdoorstep.helper.MyConstants;
 import com.fyp.Beauticianatyourdoorstep.helper.StringHelper;
@@ -38,7 +37,12 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.makeramen.roundedimageview.RoundedImageView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class BeauticianDetailsActivity extends AppCompatActivity implements MyConstants {
     private TextView beauticianNameTv, descriptionTv, genderTv, addressTv, contactTv, ageTv, cityTv;
@@ -49,6 +53,8 @@ public class BeauticianDetailsActivity extends AppCompatActivity implements MyCo
     private static DatabaseReference parent_node;
     private Context context;
     private LinearLayout services_container;
+    @SuppressLint("SimpleDateFormat")
+    private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,14 +87,14 @@ public class BeauticianDetailsActivity extends AppCompatActivity implements MyCo
                     @Override
                     public void onClick(View view) {
                         String date = requestBookingDialog.getSelectedDate();
-                        String start_time = requestBookingDialog.getSelectedStartTime();
-                        String end_time = requestBookingDialog.getSelectedEndTime();
-                        if (start_time.equals(end_time)) {
-                            Toast.makeText(context, "Start Time and End Time are same", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
+                        String start_time = requestBookingDialog.getSelectedStartTimeWithDayNight();
+                        String end_time = requestBookingDialog.getSelectedEndTimeWithDayNight();
                         if (StringHelper.isEmpty(date)) {
                             Toast.makeText(context, "Select booking date", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        if (!isDateTimeValid(date, start_time, end_time)) {
+                            Toast.makeText(context, "Invalid Date or Time", Toast.LENGTH_SHORT).show();
                             return;
                         }
                         if (CheckInternetConnectivity.isInternetConnected(context)) {
@@ -121,8 +127,8 @@ public class BeauticianDetailsActivity extends AppCompatActivity implements MyCo
                                             String serviceName = beautician.getSpecialization().split(" ")[0];
                                             String booking_details = requestBookingDialog.getBookingDetails();
                                             Booking booking = new Booking(id, email, beautician.getEmail(), serviceName + " Service", booking_details, date, start_time, end_time);
-                                            ServerLogic.requestBooking(context, booking);
-
+                                            //ServerLogic.requestBooking(context, booking);
+                                            Toast.makeText(BeauticianDetailsActivity.this, "OK", Toast.LENGTH_SHORT).show();
                                         }
                                         progDialog.dismissDialog();
                                     }
@@ -145,8 +151,51 @@ public class BeauticianDetailsActivity extends AppCompatActivity implements MyCo
         });
     }
 
-    private boolean isDateTimeValid(String date, String startTime, String endTime) {
-        return false;
+    private boolean isDateTimeValid(String selectedDate, String selectedStartTime, String selectedEndTime) {
+        if (selectedStartTime.equals(selectedEndTime)) {
+            return false;
+        }
+        try {
+            int selectedDay = Integer.parseInt(selectedDate.split("-")[0]);
+            int selectedMonth = Integer.parseInt(selectedDate.split("-")[1]);
+            int selectedYear = Integer.parseInt(selectedDate.split("-")[2]);
+            int selectedStartHr = convertHrTo24HrFormat(selectedStartTime);
+            int selectedEndHr = convertHrTo24HrFormat(selectedEndTime);
+            Date c = Calendar.getInstance().getTime();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+            String currentDate = sdf.format(c);
+            int currentDay = Integer.parseInt(currentDate.split("-")[0]);
+            int currentMonth = Integer.parseInt(currentDate.split("-")[1]);
+            int currentYear = Integer.parseInt(currentDate.split("-")[2]);
+            int currentHr = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+            if (currentDay - selectedDay > 0 || currentMonth - selectedMonth > 0 || currentYear - selectedYear > 0) {
+                return false;
+            }
+            if (currentDay == selectedDay && (currentHr - selectedStartHr) > 0) {
+                return false;
+            }
+            if ((selectedEndHr - selectedStartHr) < 0) {
+                return false;
+            }
+        } catch (Exception e) {
+            Toast.makeText(context, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    private int convertHrTo24HrFormat(String input) {
+        DateFormat df = new SimpleDateFormat("hh aa");
+        DateFormat outputformat = new SimpleDateFormat("HH");
+        Date date;
+        int output;
+        try {
+            date = df.parse(input);
+            output = Integer.parseInt(outputformat.format(date));
+            return output;
+        } catch (Exception e) {
+        }
+        return -1;
     }
 
     private void fillBeauticianData() {

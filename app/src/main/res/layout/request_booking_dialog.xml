@@ -24,7 +24,7 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="10dp" />
+            android:layout_height="5dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -46,31 +46,9 @@
             android:gravity="start"
             android:hint="for which service you are sending request?"
             android:inputType="textMultiLine"
-            android:minHeight="80dp"
-            android:padding="10dp"
+            android:minHeight="60dp"
+            android:padding="5dp"
             android:textSize="16sp" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="10dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="Booking Date"
-            android:textColor="@color/colorBlack"
-            android:textStyle="bold" />
-
-        <CalendarView
-            android:id="@+id/calendarView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:firstDayOfWeek="2" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="10dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -84,8 +62,7 @@
                 android:padding="10dp"
                 android:text="Start Time"
                 android:textColor="@color/colorBlack"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textSize="16sp" />
 
             <Spinner
                 android:id="@+id/startTimeHour"
@@ -122,8 +99,7 @@
                 android:padding="10dp"
                 android:text="End Time"
                 android:textColor="@color/colorBlack"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textSize="16sp" />
 
             <Spinner
                 android:id="@+id/endTimeHour"
@@ -147,6 +123,12 @@
                 android:entries="@array/day_night"
                 android:padding="10dp" />
         </LinearLayout>
+
+        <CalendarView
+            android:id="@+id/calendarView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:firstDayOfWeek="2" />
 
         <Button
             android:id="@+id/sendRequestBtn"

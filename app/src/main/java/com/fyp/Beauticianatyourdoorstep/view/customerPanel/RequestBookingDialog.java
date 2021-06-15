@@ -55,12 +55,20 @@ public class RequestBookingDialog extends AlertDialog {
         return date;
     }
 
-    public String getSelectedStartTime() {
-        return startTimeHour.getSelectedItem().toString() + startTimeDayNight.getSelectedItem().toString().toLowerCase();
+    public int getSelectedStartHour() {
+        return Integer.parseInt(startTimeHour.getSelectedItem().toString());
     }
 
-    public String getSelectedEndTime() {
-        return endTimeHour.getSelectedItem().toString() + endTimeDayNight.getSelectedItem().toString().toLowerCase();
+    public int getSelectedEndHour() {
+        return Integer.parseInt(endTimeHour.getSelectedItem().toString());
+    }
+
+    public String getSelectedStartTimeWithDayNight() {
+        return startTimeHour.getSelectedItem().toString() + " " + startTimeDayNight.getSelectedItem().toString().toLowerCase();
+    }
+
+    public String getSelectedEndTimeWithDayNight() {
+        return endTimeHour.getSelectedItem().toString() + " " + endTimeDayNight.getSelectedItem().toString().toLowerCase();
     }
 
     public void setSendRequestBtnListener(View.OnClickListener listener) {
