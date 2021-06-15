@@ -23,6 +23,14 @@ public class SignInActivity extends AppCompatActivity implements MyConstants {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_signin);
+        emailEd = findViewById(R.id.loginEmail);
+        passwordEd = findViewById(R.id.loginPassword);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         LoginManagement loginManagement = new LoginManagement(this);
         if (loginManagement.isLoginActive() && loginManagement.getLoginCategory() != null) {
             if (loginManagement.getLoginCategory().toLowerCase().equals(USER_CATEGORY_BEAUTICIAN)) {
@@ -31,11 +39,7 @@ public class SignInActivity extends AppCompatActivity implements MyConstants {
                 startActivity(new Intent(SignInActivity.this, CustomerDashboardActivity.class));
             }
             finish();
-            return;
         }
-        setContentView(R.layout.activity_signin);
-        emailEd = findViewById(R.id.loginEmail);
-        passwordEd = findViewById(R.id.loginPassword);
     }
 
     public void signIn(View view) {

@@ -158,6 +158,7 @@ public class BeauticianDashboardActivity extends AppCompatActivity implements My
         if (CheckInternetConnectivity.isInternetConnected(context)) {
             getBeauticianData(this);
         } else {
+
             Toast.makeText(context, MyConstants.NO_INTERNET_CONNECTION, Toast.LENGTH_SHORT).show();
         }
     }
@@ -170,20 +171,6 @@ public class BeauticianDashboardActivity extends AppCompatActivity implements My
             it.putExtra(EXTRA_BEAUTICIAN_SPECIALIZATION, specialization);
             startActivity(it);
         }
-    }
-
-    private void logout() {
-        final CustomConfirmDialog confirmDialog = new CustomConfirmDialog(context, "Are you sure to Logout?");
-        confirmDialog.setOkBtnText("Logout")
-                .setOkBtnListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        confirmDialog.dismissDialog();
-                        loginManagement.removeLoginFromDevice();
-                        startActivity(activity_opener.setClass(context, SignInActivity.class));
-                        finish();
-                    }
-                });
     }
 
     private void getBeauticianData(final Context context) {
@@ -219,6 +206,20 @@ public class BeauticianDashboardActivity extends AppCompatActivity implements My
             progDialog.dismissDialog();
             CustomToast.makeToast(context, "Error:" + e.getMessage(), Toast.LENGTH_LONG);
         }
+    }
+
+    private void logout() {
+        final CustomConfirmDialog confirmDialog = new CustomConfirmDialog(context, "Are you sure to Logout?");
+        confirmDialog.setOkBtnText("Logout")
+                .setOkBtnListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        confirmDialog.dismissDialog();
+                        loginManagement.removeLoginFromDevice();
+                        startActivity(activity_opener.setClass(context, SignInActivity.class));
+                        finish();
+                    }
+                });
     }
 
     private static boolean doubleBackToExitPressedOnce = false;

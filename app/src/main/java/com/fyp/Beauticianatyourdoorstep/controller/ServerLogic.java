@@ -40,8 +40,6 @@ public final class ServerLogic implements MyConstants {
     private static final StorageReference storageReference;
     private static String email_identifier;
     private static CustomProgressDialog progDialog;
-    @SuppressLint("SimpleDateFormat")
-    private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
     static {
         //This block initialize static variables
@@ -66,11 +64,13 @@ public final class ServerLogic implements MyConstants {
                         try {
                             //New Account Created
                             realtimeDatabaseReference.child(NODE_USER).child(email_identifier).setValue(user);
-                            new CustomMsgDialog(activity, "Congratulations", "New Account Created Successfully!\n\nNow you can Sign In.");
+                            LoginManagement loginManagement = new LoginManagement(activity);
+                            loginManagement.setLoginEmail(user.getEmail());
+                            loginManagement.setLoginCategory(user.getCategory());
                             progDialog.dismissDialog();
+                            activity.finish();
                         } catch (Exception e) {
                             progDialog.dismissDialog();
-                            System.out.println(e.toString());
                             CustomToast.makeToast(activity, "Can't create account at this time", Toast.LENGTH_SHORT);
                         }
                     }

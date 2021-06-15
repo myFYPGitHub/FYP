@@ -101,6 +101,7 @@ public class RegistrationActivity extends AppCompatActivity implements MyConstan
         }
         if (genderIndex == 0) {
             Toast.makeText(this, "Please Select a Gender", Toast.LENGTH_LONG).show();
+            return false;
         }
         if (email.isEmpty()) {
             emailEd.setError("Please Enter your valid Email");
@@ -116,6 +117,7 @@ public class RegistrationActivity extends AppCompatActivity implements MyConstan
         }
         if (cityIndex == 0) {
             Toast.makeText(this, "Please Select a City", Toast.LENGTH_LONG).show();
+            return false;
         }
         if (password.isEmpty() || password.length() < MIN_PASSWORD_CHARS) {
             passwordEd.setError("Password must be at least " + MIN_PASSWORD_CHARS + " letters");
