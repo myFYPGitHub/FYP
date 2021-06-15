@@ -36,8 +36,7 @@ public class HairServicesFragment extends Fragment {
     private final SwitchMaterial[] serviceSwitch = new SwitchMaterial[fieldsLength];
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_hair_services, container, false);
         serviceNameTv[0] = rootView.findViewById(R.id.service1Name);
         serviceNameTv[1] = rootView.findViewById(R.id.service2Name);
