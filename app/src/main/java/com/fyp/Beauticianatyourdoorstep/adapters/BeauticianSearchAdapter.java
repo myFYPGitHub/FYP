@@ -1,4 +1,4 @@
-package com.fyp.Beauticianatyourdoorstep.adapter;
+package com.fyp.Beauticianatyourdoorstep.adapters;
 
 import android.app.Activity;
 import android.content.Intent;

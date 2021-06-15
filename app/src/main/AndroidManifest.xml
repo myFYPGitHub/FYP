@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
 
     <application
         android:allowBackup="true"
@@ -22,7 +23,7 @@
         <activity
             android:name=".view.customerPanel.CustomerProfileManagerActivity"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".view.AppSettingsActivity" />
+        <activity android:name=".view.SettingsActivity" />
         <activity android:name=".view.beauticianPanel.BeauticianOrderHistoryActivity" />
         <activity android:name=".view.beauticianPanel.OrdersDetailsActivity" />
         <activity android:name=".view.beauticianPanel.BeauticianOrderRequestsActivity" />

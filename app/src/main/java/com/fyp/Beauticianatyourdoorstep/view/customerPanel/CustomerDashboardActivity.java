@@ -3,7 +3,6 @@ package com.fyp.Beauticianatyourdoorstep.view.customerPanel;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,8 +26,8 @@ import com.fyp.Beauticianatyourdoorstep.model.DB;
 import com.fyp.Beauticianatyourdoorstep.uihelper.CustomConfirmDialog;
 import com.fyp.Beauticianatyourdoorstep.uihelper.CustomProgressDialog;
 import com.fyp.Beauticianatyourdoorstep.uihelper.CustomToast;
-import com.fyp.Beauticianatyourdoorstep.view.AppSettingsActivity;
 import com.fyp.Beauticianatyourdoorstep.view.MapActivity;
+import com.fyp.Beauticianatyourdoorstep.view.SettingsActivity;
 import com.fyp.Beauticianatyourdoorstep.view.SignInActivity;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -37,13 +36,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.makeramen.roundedimageview.RoundedImageView;
-
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 
 public class CustomerDashboardActivity extends AppCompatActivity implements MyConstants {
     private Context context;
@@ -78,7 +70,7 @@ public class CustomerDashboardActivity extends AppCompatActivity implements MyCo
                         case R.id.drawer_settings_item:
                             Intent it = new Intent();
                             it.putExtra(EXTRA_CLASS, CustomerDashboardActivity.class);
-                            it.setClass(context, AppSettingsActivity.class);
+                            it.setClass(context, SettingsActivity.class);
                             startActivity(it);
                             finish();
                             break;

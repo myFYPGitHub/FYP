@@ -17,7 +17,6 @@ public interface MyConstants {
     String NODE_BEAUTICIAN_SERVICES = "SERVICES";
 
     String NO_INTERNET_CONNECTION = "No internet connection";
-    String INTERNET_CONNECTED = "Internet connected";
 
     String USER_FIRST_NAME = "firstName";
     String USER_LAST_NAME = "lastName";
@@ -59,9 +58,4 @@ public interface MyConstants {
     String BOOKING_BEAUTICIAN_EMAIL = "beauticianEmail";
     String BOOKING_SERVICE_REVIEW = "serviceReview";
     String BOOKING_CANCELLATION_REASON = "cancellationReason";
-
-    String GENDER_MALE = "male";
-    String GENDER_FEMALE = "female";
-
-    // String[] BEAUTICIAN_SERVICES = {"Hair Specialist", "Massage Specialist", "Nails Specialist", "Makeup Specialist", "Waxing Specialist", "Facial Specialist"};
 }

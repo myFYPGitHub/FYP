@@ -3,7 +3,6 @@ package com.fyp.Beauticianatyourdoorstep.view.customerPanel;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
@@ -15,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fyp.Beauticianatyourdoorstep.R;
-import com.fyp.Beauticianatyourdoorstep.adapter.BeauticianSearchAdapter;
+import com.fyp.Beauticianatyourdoorstep.adapters.BeauticianSearchAdapter;
 import com.fyp.Beauticianatyourdoorstep.helper.MyConstants;
 import com.fyp.Beauticianatyourdoorstep.internetchecking.CheckInternetConnectivity;
 import com.fyp.Beauticianatyourdoorstep.model.Beautician;
@@ -66,27 +65,19 @@ public class BeauticianSearchActivity extends AppCompatActivity implements MyCon
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                searchBeautician(query.toLowerCase());
+                searchAllBeautician(query.toLowerCase());
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                searchBeautician(newText.toLowerCase());
+                searchAllBeautician(newText.toLowerCase());
                 return false;
             }
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.beautician_search_menu,menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-
-
-    private void searchBeautician(String toSearch) {
+    private void searchAllBeautician(String toSearch) {
         if (CheckInternetConnectivity.isInternetConnected(context)) {
             try {
                 Query checkBeautician = parent_node.child(NODE_USER).orderByChild(USER_CATEGORY).equalTo(USER_CATEGORY_BEAUTICIAN);

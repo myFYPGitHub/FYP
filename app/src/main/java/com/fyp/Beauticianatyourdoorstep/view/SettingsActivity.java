@@ -22,7 +22,7 @@ import com.fyp.Beauticianatyourdoorstep.uihelper.CustomMsgDialog;
 import com.fyp.Beauticianatyourdoorstep.uihelper.CustomToast;
 import com.google.android.material.snackbar.Snackbar;
 
-public class AppSettingsActivity extends AppCompatActivity implements MyConstants {
+public class SettingsActivity extends AppCompatActivity implements MyConstants {
     private Context context;
     private String newInput;
     private Class<?> cls;
@@ -31,7 +31,7 @@ public class AppSettingsActivity extends AppCompatActivity implements MyConstant
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_settings);
-        context = AppSettingsActivity.this;
+        context = SettingsActivity.this;
         Intent it = getIntent();
         cls = (Class<?>) it.getSerializableExtra(EXTRA_CLASS);
         ListView listView = findViewById(R.id.settings_list_view);
@@ -78,7 +78,7 @@ public class AppSettingsActivity extends AppCompatActivity implements MyConstant
                         }
                         if (CheckInternetConnectivity.isInternetConnected(context)) {
                             newInput = StringHelper.capitalizeString(newInput);
-                            ServerLogic.changeFirstName(AppSettingsActivity.this, newInput);
+                            ServerLogic.changeFirstName(SettingsActivity.this, newInput);
                         } else {
                             Snackbar.make(findViewById(android.R.id.content), NO_INTERNET_CONNECTION, Snackbar.LENGTH_SHORT).show();
                         }
@@ -96,7 +96,7 @@ public class AppSettingsActivity extends AppCompatActivity implements MyConstant
                         newInput = customInputDialog.getInputText();
                         if (CheckInternetConnectivity.isInternetConnected(context)) {
                             newInput = StringHelper.capitalizeString(newInput);
-                            ServerLogic.changeLastName(AppSettingsActivity.this, newInput);
+                            ServerLogic.changeLastName(SettingsActivity.this, newInput);
                         } else {
                             Snackbar.make(findViewById(android.R.id.content), NO_INTERNET_CONNECTION, Snackbar.LENGTH_SHORT).show();
                         }
@@ -122,7 +122,7 @@ public class AppSettingsActivity extends AppCompatActivity implements MyConstant
                         }
                         if (CheckInternetConnectivity.isInternetConnected(context)) {
                              newInput = StringHelper.toMD5String(newInput);
-                            ServerLogic.changePassword(AppSettingsActivity.this, newInput);
+                            ServerLogic.changePassword(SettingsActivity.this, newInput);
                         } else {
                             Snackbar.make(findViewById(android.R.id.content), NO_INTERNET_CONNECTION, Snackbar.LENGTH_SHORT).show();
                         }
@@ -146,7 +146,7 @@ public class AppSettingsActivity extends AppCompatActivity implements MyConstant
                         }
                         if (CheckInternetConnectivity.isInternetConnected(context)) {
                             newInput = StringHelper.capitalizeString(newInput);
-                            ServerLogic.changeContact(AppSettingsActivity.this, newInput);
+                            ServerLogic.changeContact(SettingsActivity.this, newInput);
                         } else {
                             Snackbar.make(findViewById(android.R.id.content), NO_INTERNET_CONNECTION, Snackbar.LENGTH_SHORT).show();
                         }

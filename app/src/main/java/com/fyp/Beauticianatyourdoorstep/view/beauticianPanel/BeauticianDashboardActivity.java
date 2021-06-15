@@ -26,8 +26,8 @@ import com.fyp.Beauticianatyourdoorstep.model.DB;
 import com.fyp.Beauticianatyourdoorstep.uihelper.CustomConfirmDialog;
 import com.fyp.Beauticianatyourdoorstep.uihelper.CustomProgressDialog;
 import com.fyp.Beauticianatyourdoorstep.uihelper.CustomToast;
-import com.fyp.Beauticianatyourdoorstep.view.AppSettingsActivity;
 import com.fyp.Beauticianatyourdoorstep.view.MapActivity;
+import com.fyp.Beauticianatyourdoorstep.view.SettingsActivity;
 import com.fyp.Beauticianatyourdoorstep.view.SignInActivity;
 import com.fyp.Beauticianatyourdoorstep.view.customerPanel.UpdatesActivity;
 import com.google.android.material.navigation.NavigationView;
@@ -71,7 +71,7 @@ public class BeauticianDashboardActivity extends AppCompatActivity implements My
                         case R.id.drawer_settings_item:
                             Intent it = new Intent();
                             it.putExtra(EXTRA_CLASS, BeauticianDashboardActivity.class);
-                            it.setClass(context, AppSettingsActivity.class);
+                            it.setClass(context, SettingsActivity.class);
                             startActivity(it);
                             finish();
                             break;

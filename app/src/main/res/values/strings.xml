@@ -1,12 +1,8 @@
 <resources>
     <string name="app_name">Beautician at your door step</string>
     <string name="image">image</string>
-    <string name="nav_header_title">Dawood Khan</string>
+    <string name="nav_header_title">Full Name</string>
     <string name="nav_header_subtitle">email@gmail.com</string>
-    <string name="new_password_note">NOTE:
-        \nIf an account is associated with App email, new password will be send to the email you entered in the 2nd textbox
-        therefore enter correct App account email address.
-    </string>
 
     <string-array name="person_gender">
         <item>Select Gender</item>

@@ -1,4 +1,4 @@
-package com.fyp.Beauticianatyourdoorstep.adapter;
+package com.fyp.Beauticianatyourdoorstep.adapters;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -21,23 +21,23 @@ import com.fyp.Beauticianatyourdoorstep.R;
 import com.fyp.Beauticianatyourdoorstep.helper.MyConstants;
 import com.fyp.Beauticianatyourdoorstep.helper.StringHelper;
 import com.fyp.Beauticianatyourdoorstep.internetchecking.CheckInternetConnectivity;
+import com.fyp.Beauticianatyourdoorstep.model.Beautician;
 import com.fyp.Beauticianatyourdoorstep.model.Booking;
-import com.fyp.Beauticianatyourdoorstep.model.OrderItem;
-import com.fyp.Beauticianatyourdoorstep.model.User;
-import com.fyp.Beauticianatyourdoorstep.view.beauticianPanel.OrdersDetailsActivity;
+import com.fyp.Beauticianatyourdoorstep.model.BookingItem;
+import com.fyp.Beauticianatyourdoorstep.view.customerPanel.BookingDetailsActivity;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.ArrayList;
 
-public class BeauticianOrdersAdapter extends RecyclerView.Adapter<BeauticianOrdersAdapter.ViewHolder> implements MyConstants {
+public class CustomerBookingAdapter extends RecyclerView.Adapter<CustomerBookingAdapter.ViewHolder> implements MyConstants {
     private final Activity activity;
-    private final ArrayList<OrderItem> list;
+    private final ArrayList<BookingItem> list;
     private static final Intent activity_opener = new Intent();
     private int lastPosition = -1;
 
-    public BeauticianOrdersAdapter(Activity activity, ArrayList<OrderItem> orderItem) {
+    public CustomerBookingAdapter(Activity activity, ArrayList<BookingItem> list) {
         this.activity = activity;
-        this.list = orderItem;
+        this.list = list;
     }
 
     @NonNull
@@ -49,21 +49,21 @@ public class BeauticianOrdersAdapter extends RecyclerView.Adapter<BeauticianOrde
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int pos) {
-        User customer = list.get(pos).getUserInstance();
+        Beautician beautician = list.get(pos).getBeauticianInstance();
         Booking booking = list.get(pos).getBookingInstance();
-        String first_name = customer.getFirstName();
-        String last_name = customer.getLastName();
+        String first_name = beautician.getFirstName();
+        String last_name = beautician.getLastName();
         String fullName = first_name + " " + last_name;
-        holder.order_service_name.setText(booking.getServiceName());
-        String picUri = customer.getProfilePicUri();
+        holder.service_name.setText(booking.getServiceName());
+        String picUri = beautician.getProfilePicUri();
         if (picUri != null)
             Glide.with(activity).load(Uri.parse(picUri)).into(holder.profile_pic);
-        holder.order_cusName.setText(StringHelper.capitalizeString(fullName));
-        holder.order_cusContact.setText(customer.getContact());
-        holder.order_cusCity.setText(StringHelper.capitalizeString(customer.getCity()));
-        holder.order_cusAddress.setText(customer.getAddress());
-        Integer total_rating = customer.getTotalRating();
-        Integer num_of_rating = customer.getNumOfRating();
+        holder.name.setText(StringHelper.capitalizeString(fullName));
+        holder.contact.setText(beautician.getContact());
+        holder.city.setText(StringHelper.capitalizeString(beautician.getCity()));
+        holder.address.setText(beautician.getAddress());
+        Integer total_rating = beautician.getTotalRating();
+        Integer num_of_rating = beautician.getNumOfRating();
         int customer_rating = total_rating / (num_of_rating == 0 ? 1 : num_of_rating);
         holder.ratingBar.setRating(customer_rating);
         holder.order_date.setText("Date: " + booking.getRequestDate());
@@ -84,12 +84,12 @@ public class BeauticianOrdersAdapter extends RecyclerView.Adapter<BeauticianOrde
                 break;
         }
         holder.order_status.setText(status);
-        holder.order_request.setOnClickListener(new View.OnClickListener() {
+        holder.booking_request.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (CheckInternetConnectivity.isInternetConnected(activity)) {
                     try {
-                        activity_opener.setClass(activity, OrdersDetailsActivity.class);
+                        activity_opener.setClass(activity, BookingDetailsActivity.class);
                         activity_opener.putExtra(EXTRA_BOOKING_DETAILS, list.get(pos));
                         activity.startActivity(activity_opener);
                     } catch (Exception e) {
@@ -116,20 +116,20 @@ public class BeauticianOrdersAdapter extends RecyclerView.Adapter<BeauticianOrde
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView order_service_name, order_cusName, order_cusAddress, order_cusContact, order_date, order_timing, order_status, order_cusCity;
+        TextView service_name, name, address, contact, order_date, order_timing, order_status, city;
         RatingBar ratingBar;
         RoundedImageView profile_pic;
-        CardView order_request;
+        CardView booking_request;
 
         public ViewHolder(@NonNull View view) {
             super(view);
-            order_request = view.findViewById(R.id.orderItem_request);
-            order_service_name = view.findViewById(R.id.orderItem_service_name);
-            order_cusName = view.findViewById(R.id.orderItem_cusName);
-            order_cusAddress = view.findViewById(R.id.orderItem_cusAddress);
-            order_cusContact = view.findViewById(R.id.orderItem_cusContact);
+            booking_request = view.findViewById(R.id.orderItem_request);
+            service_name = view.findViewById(R.id.orderItem_service_name);
+            name = view.findViewById(R.id.orderItem_cusName);
+            address = view.findViewById(R.id.orderItem_cusAddress);
+            contact = view.findViewById(R.id.orderItem_cusContact);
             order_date = view.findViewById(R.id.orderItem_date);
-            order_cusCity = view.findViewById(R.id.orderItem_cusCity);
+            city = view.findViewById(R.id.orderItem_cusCity);
             order_timing = view.findViewById(R.id.orderItem_timing);
             order_status = view.findViewById(R.id.orderItem_status);
             ratingBar = view.findViewById(R.id.orderItem_rating);

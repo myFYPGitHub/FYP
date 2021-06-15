@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fyp.Beauticianatyourdoorstep.R;
-import com.fyp.Beauticianatyourdoorstep.adapter.CustomerBookingAdapter;
+import com.fyp.Beauticianatyourdoorstep.adapters.CustomerBookingAdapter;
 import com.fyp.Beauticianatyourdoorstep.helper.LoginManagement;
 import com.fyp.Beauticianatyourdoorstep.helper.MyConstants;
 import com.fyp.Beauticianatyourdoorstep.helper.StringHelper;

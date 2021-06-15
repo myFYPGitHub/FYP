@@ -1,10 +1,10 @@
 package com.fyp.Beauticianatyourdoorstep.controller;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.telephony.SmsManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -33,17 +33,17 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.text.SimpleDateFormat;
+import java.security.SecureRandom;
 
 public final class ServerLogic implements MyConstants {
-    private static final DatabaseReference realtimeDatabaseReference;
+    private static final DatabaseReference realtimeDatabaseRef;
     private static final StorageReference storageReference;
     private static String email_identifier;
     private static CustomProgressDialog progDialog;
 
     static {
         //This block initialize static variables
-        realtimeDatabaseReference = DB.getRtDBRootNodeReference();
+        realtimeDatabaseRef = DB.getRtDBRootNodeReference();
         storageReference = DB.getStorageReference();
     }
 
@@ -51,7 +51,7 @@ public final class ServerLogic implements MyConstants {
         progDialog = new CustomProgressDialog(activity, "Processing . . .");
         progDialog.showDialog();
         try {
-            Query checkDuplicateAcc = realtimeDatabaseReference.child(NODE_USER).orderByChild(USER_EMAIL).equalTo(user.getEmail());
+            Query checkDuplicateAcc = realtimeDatabaseRef.child(NODE_USER).orderByChild(USER_EMAIL).equalTo(user.getEmail());
             email_identifier = StringHelper.removeInvalidCharsFromIdentifier(user.getEmail());
             checkDuplicateAcc.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -63,7 +63,7 @@ public final class ServerLogic implements MyConstants {
                     } else {
                         try {
                             //New Account Created
-                            realtimeDatabaseReference.child(NODE_USER).child(email_identifier).setValue(user);
+                            realtimeDatabaseRef.child(NODE_USER).child(email_identifier).setValue(user);
                             LoginManagement loginManagement = new LoginManagement(activity);
                             loginManagement.setLoginEmail(user.getEmail());
                             loginManagement.setLoginCategory(user.getCategory());
@@ -91,7 +91,7 @@ public final class ServerLogic implements MyConstants {
         progDialog.showDialog();
         try {
             email_identifier = StringHelper.removeInvalidCharsFromIdentifier(email);
-            DatabaseReference userRef = realtimeDatabaseReference.child(NODE_USER).child(email_identifier);
+            DatabaseReference userRef = realtimeDatabaseRef.child(NODE_USER).child(email_identifier);
             userRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -129,34 +129,37 @@ public final class ServerLogic implements MyConstants {
         }
     }
 
-    /*public static void sendNewPasswordToCorrectEmail(final Activity activity, final String recipient_email) {
-        progDialog = new CustomProgressDialog(activity, "Checking your email in database . . .");
+    public static void sendNewPassword(final Context context, final String recipient_email, final String phoneNo) {
+        progDialog = new CustomProgressDialog(context, "Checking your email in database . . .");
         progDialog.showDialog();
         try {
-            Query checkExistingAcc = realtimeDatabaseReference.orderByChild(USER_KEY_EMAIL).equalTo(recipient_email);
-            checkExistingAcc.addListenerForSingleValueEvent(new ValueEventListener() {
+            email_identifier = StringHelper.removeInvalidCharsFromIdentifier(recipient_email);
+            DatabaseReference dbRef = realtimeDatabaseRef.child(NODE_USER).child(email_identifier);
+            dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
                         progDialog.dismissDialog();
                         final String new_key = String.valueOf(1316548 + new SecureRandom().nextInt(3216546));
-                        email_identifier = StringOperations.removeInvalidCharsFromIdentifier(recipient_email);
-                        Task<Void> task = realtimeDatabaseReference.child(email_identifier).child(USER_KEY_PASSWORD).setValue(StringOperations.toMD5String(new_key));
+                        Task<Void> task = realtimeDatabaseRef.child(NODE_USER).child(email_identifier)
+                                .child(USER_PASSWORD).setValue(StringHelper.toMD5String(new_key));
                         task.addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                MailService.sendMessage(activity, recipient_email, new_key);
+                                SmsManager smsManager = SmsManager.getDefault();
+                                smsManager.sendTextMessage(phoneNo, null, "Your 'Beautician at your Door Steps' account new password is " + new_key, null, null);
+                                Toast.makeText(context, "SMS sent.", Toast.LENGTH_LONG).show();
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 progDialog.dismissDialog();
-                                CustomToast.makeToast(activity, "Can't change your password at this time!\nError:" + e.getMessage(), Toast.LENGTH_LONG);
+                                CustomToast.makeToast(context, "Can't change your password at this time!\nError:" + e.getMessage(), Toast.LENGTH_LONG);
                             }
                         });
                     } else {
                         progDialog.dismissDialog();
-                        new CustomMsgDialog(activity, "WRONG EMAIL!", "Email you entered is not associated with any account in our database.");
+                        new CustomMsgDialog(context, "WRONG EMAIL!", "Email you entered is not associated with any account in our database.");
                     }
                 }
 
@@ -166,9 +169,9 @@ public final class ServerLogic implements MyConstants {
             });
         } catch (Exception e) {
             progDialog.dismissDialog();
-            CustomToast.makeToast(activity, "Error:" + e.getMessage(), Toast.LENGTH_LONG);
+            CustomToast.makeToast(context, "Error:" + e.getMessage(), Toast.LENGTH_LONG);
         }
-    }*/
+    }
 
     public static void uploadProfilePic(final Activity activity, final Uri pic_uri) {
         try {
@@ -176,7 +179,7 @@ public final class ServerLogic implements MyConstants {
             progDialog.showDialog();
             final String file_storage_id = System.currentTimeMillis() + "";
             email_identifier = new LoginManagement(activity).getEmailIdentifier();
-            DatabaseReference dbRef = realtimeDatabaseReference.child(NODE_USER).child(email_identifier).child(USER_PROFILE_PIC_ID);
+            DatabaseReference dbRef = realtimeDatabaseRef.child(NODE_USER).child(email_identifier).child(USER_PROFILE_PIC_ID);
             dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -193,8 +196,8 @@ public final class ServerLogic implements MyConstants {
                                         task.addOnSuccessListener(new OnSuccessListener<Uri>() {
                                             @Override
                                             public void onSuccess(final Uri uri) {
-                                                realtimeDatabaseReference.child(NODE_USER).child(email_identifier).child(USER_PROFILE_PIC_ID).setValue(file_storage_id);
-                                                realtimeDatabaseReference.child(NODE_USER).child(email_identifier).child(USER_PROFILE_PIC_URI).setValue(uri.toString());
+                                                realtimeDatabaseRef.child(NODE_USER).child(email_identifier).child(USER_PROFILE_PIC_ID).setValue(file_storage_id);
+                                                realtimeDatabaseRef.child(NODE_USER).child(email_identifier).child(USER_PROFILE_PIC_URI).setValue(uri.toString());
                                                 Toast.makeText(activity, "Updated Successfully", Toast.LENGTH_SHORT).show();
                                                 progDialog.dismissDialog();
                                             }
@@ -224,8 +227,8 @@ public final class ServerLogic implements MyConstants {
                                 task.addOnSuccessListener(new OnSuccessListener<Uri>() {
                                     @Override
                                     public void onSuccess(final Uri uri) {
-                                        realtimeDatabaseReference.child(NODE_USER).child(email_identifier).child(USER_PROFILE_PIC_ID).setValue(file_storage_id);
-                                        realtimeDatabaseReference.child(NODE_USER).child(email_identifier).child(USER_PROFILE_PIC_URI).setValue(uri.toString());
+                                        realtimeDatabaseRef.child(NODE_USER).child(email_identifier).child(USER_PROFILE_PIC_ID).setValue(file_storage_id);
+                                        realtimeDatabaseRef.child(NODE_USER).child(email_identifier).child(USER_PROFILE_PIC_URI).setValue(uri.toString());
                                         Toast.makeText(activity, "Updated Successfully", Toast.LENGTH_SHORT).show();
                                         progDialog.dismissDialog();
                                     }
@@ -257,7 +260,7 @@ public final class ServerLogic implements MyConstants {
             progDialog.showDialog();
             final String file_storage_id = System.currentTimeMillis() + "";
             email_identifier = new LoginManagement(context).getEmailIdentifier();
-            DatabaseReference dbRef = realtimeDatabaseReference.child(NODE_USER).child(email_identifier).child(USER_PROFILE_PIC_ID);
+            DatabaseReference dbRef = realtimeDatabaseRef.child(NODE_USER).child(email_identifier).child(USER_PROFILE_PIC_ID);
             dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -266,8 +269,8 @@ public final class ServerLogic implements MyConstants {
                         task.addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                realtimeDatabaseReference.child(NODE_USER).child(email_identifier).child(USER_PROFILE_PIC_ID).removeValue();
-                                realtimeDatabaseReference.child(NODE_USER).child(email_identifier).child(USER_PROFILE_PIC_URI).removeValue();
+                                realtimeDatabaseRef.child(NODE_USER).child(email_identifier).child(USER_PROFILE_PIC_ID).removeValue();
+                                realtimeDatabaseRef.child(NODE_USER).child(email_identifier).child(USER_PROFILE_PIC_URI).removeValue();
                                 Toast.makeText(context, "Deleted Successfully", Toast.LENGTH_SHORT).show();
                                 progDialog.dismissDialog();
                             }
@@ -296,14 +299,14 @@ public final class ServerLogic implements MyConstants {
         progDialog.showDialog();
         try {
             email_identifier = new LoginManagement(context).getEmailIdentifier();
-            Query checkAccount = realtimeDatabaseReference.child(NODE_USER).child(email_identifier);
+            Query checkAccount = realtimeDatabaseRef.child(NODE_USER).child(email_identifier);
 
             checkAccount.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
                         String serviceId = String.valueOf(index);
-                        realtimeDatabaseReference.child(NODE_USER).child(email_identifier)
+                        realtimeDatabaseRef.child(NODE_USER).child(email_identifier)
                                 .child(NODE_BEAUTICIAN_SERVICES).child(serviceId).setValue(beauticianService);
                         CustomToast.makeToast(context, beauticianService.getServiceName() + " Service Added", Toast.LENGTH_SHORT);
                     }
@@ -325,14 +328,14 @@ public final class ServerLogic implements MyConstants {
         progDialog.showDialog();
         try {
             email_identifier = new LoginManagement(context).getEmailIdentifier();
-            Query checkAccount = realtimeDatabaseReference.child(NODE_USER).child(email_identifier);
+            Query checkAccount = realtimeDatabaseRef.child(NODE_USER).child(email_identifier);
 
             checkAccount.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
                         String serviceId = String.valueOf(index);
-                        realtimeDatabaseReference.child(NODE_USER).child(email_identifier)
+                        realtimeDatabaseRef.child(NODE_USER).child(email_identifier)
                                 .child(NODE_BEAUTICIAN_SERVICES).child(serviceId).setValue(null);
                         servicePriceEd.setText("");
                         CustomToast.makeToast(context, "Service Removed", Toast.LENGTH_LONG);
@@ -354,7 +357,7 @@ public final class ServerLogic implements MyConstants {
         progDialog = new CustomProgressDialog(context, "Sending Booking Request . . .");
         progDialog.showDialog();
         try {
-            realtimeDatabaseReference.child(NODE_BOOKING).child(booking.getBookingId()).setValue(booking)
+            realtimeDatabaseRef.child(NODE_BOOKING).child(booking.getBookingId()).setValue(booking)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
@@ -374,7 +377,7 @@ public final class ServerLogic implements MyConstants {
         progDialog.showDialog();
         try {
             email_identifier = new LoginManagement(activity).getEmailIdentifier();
-            Task<Void> task = realtimeDatabaseReference.child(NODE_USER).child(email_identifier).child(USER_FIRST_NAME).setValue(newFirstName);
+            Task<Void> task = realtimeDatabaseRef.child(NODE_USER).child(email_identifier).child(USER_FIRST_NAME).setValue(newFirstName);
             task.addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
@@ -399,7 +402,7 @@ public final class ServerLogic implements MyConstants {
         progDialog.showDialog();
         try {
             email_identifier = new LoginManagement(activity).getEmailIdentifier();
-            Task<Void> task = realtimeDatabaseReference.child(NODE_USER).child(email_identifier).child(USER_LAST_NAME).setValue(newLastName);
+            Task<Void> task = realtimeDatabaseRef.child(NODE_USER).child(email_identifier).child(USER_LAST_NAME).setValue(newLastName);
             task.addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
@@ -424,7 +427,7 @@ public final class ServerLogic implements MyConstants {
         progDialog.showDialog();
         try {
             email_identifier = new LoginManagement(activity).getEmailIdentifier();
-            Task<Void> task = realtimeDatabaseReference.child(NODE_USER).child(email_identifier).child(USER_CONTACT).setValue(newContact);
+            Task<Void> task = realtimeDatabaseRef.child(NODE_USER).child(email_identifier).child(USER_CONTACT).setValue(newContact);
             task.addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
@@ -449,7 +452,7 @@ public final class ServerLogic implements MyConstants {
         progDialog.showDialog();
         try {
             email_identifier = new LoginManagement(activity).getEmailIdentifier();
-            Task<Void> task = realtimeDatabaseReference.child(NODE_USER).child(email_identifier).child(USER_PASSWORD).setValue(newPassword);
+            Task<Void> task = realtimeDatabaseRef.child(NODE_USER).child(email_identifier).child(USER_PASSWORD).setValue(newPassword);
             task.addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
