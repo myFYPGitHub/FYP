@@ -47,7 +47,7 @@ public class BeauticianProfileManagerActivity extends AppCompatActivity implemen
     private RoundedImageView profile_pic;
     private Context context;
     private String current_specialization;
-    private EditText descEd, addressEd;
+    private EditText descEd, addressEd, ageEd;
     private Spinner citySpinner, specializationSpinner;
     private String profilePicStorageId;
     private RatingBar beautyMgrRatingBar;
@@ -69,6 +69,7 @@ public class BeauticianProfileManagerActivity extends AppCompatActivity implemen
         beautyMgrRatingBar = findViewById(R.id.beautyMgrRatingBar);
         descEd = findViewById(R.id.beautyMgrDesc);
         addressEd = findViewById(R.id.beautyMgrAddress);
+        ageEd = findViewById(R.id.beautyMgrAge);
         citySpinner = findViewById(R.id.beautyMgrCity);
         specializationSpinner = findViewById(R.id.beautyMgrSpecialization);
         profile_pic = findViewById(R.id.beautyMgrProfilePic);
@@ -108,10 +109,15 @@ public class BeauticianProfileManagerActivity extends AppCompatActivity implemen
     private void saveChanges() {
         String desc = descEd.getText().toString();
         String address = addressEd.getText().toString();
+        String age = ageEd.getText().toString();
         String specializationChanged = specializationSpinner.getSelectedItem().toString();
         int specializationChanged_pos = specializationSpinner.getSelectedItemPosition();
         if (address.isEmpty()) {
             addressEd.setError("Please Enter your Address");
+            return;
+        }
+        if (age.isEmpty()) {
+            ageEd.setError("Age is a required field");
             return;
         }
         if (citySpinner.getSelectedItemPosition() == 0) {
@@ -130,6 +136,7 @@ public class BeauticianProfileManagerActivity extends AppCompatActivity implemen
                         String city = citySpinner.getSelectedItem().toString();
                         dbRef.child(USER_DESCRIPTION).setValue(desc);
                         dbRef.child(USER_ADDRESS).setValue(address);
+                        dbRef.child(USER_AGE).setValue(age);
                         dbRef.child(USER_CITY).setValue(city);
                         if (specializationChanged_pos != 0 && !specializationChanged.equals(current_specialization)) {
                             dbRef.child(BEAUTICIAN_SPECIALIZATION).setValue(specializationChanged)
@@ -178,6 +185,7 @@ public class BeauticianProfileManagerActivity extends AppCompatActivity implemen
                             descEd.setError("please write your description");
                         }
                         addressEd.setText(beautician.getAddress());
+                        ageEd.setText(beautician.getAge());
                         String city = beautician.getCity();
                         selectSpinnerItemByValue(citySpinner, city);
                         if (beautician.getAvailability()) {

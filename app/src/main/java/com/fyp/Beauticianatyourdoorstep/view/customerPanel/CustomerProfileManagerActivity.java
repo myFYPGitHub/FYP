@@ -45,7 +45,7 @@ public class CustomerProfileManagerActivity extends AppCompatActivity implements
     private Context context;
     private EditText firstNameEd, lastNameEd, ageEd, addressEd;
     private Spinner citySpinner;
-    private String profilePicStorageId;     //can be use for pic deletion
+    private String profilePicStorageId;
     private RatingBar ratingBar;
     private DatabaseReference realtimeDatabaseReference;
     private String email_identifier;
