@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.fyp.Beauticianatyourdoorstep.R;
+import com.fyp.Beauticianatyourdoorstep.controller.ServerLogic;
 import com.fyp.Beauticianatyourdoorstep.helper.LoginManagement;
 import com.fyp.Beauticianatyourdoorstep.helper.MyConstants;
 import com.fyp.Beauticianatyourdoorstep.helper.StringHelper;
@@ -127,8 +128,7 @@ public class BeauticianDetailsActivity extends AppCompatActivity implements MyCo
                                             String serviceName = beautician.getSpecialization().split(" ")[0];
                                             String booking_details = requestBookingDialog.getBookingDetails();
                                             Booking booking = new Booking(id, email, beautician.getEmail(), serviceName + " Service", booking_details, date, start_time, end_time);
-                                            //ServerLogic.requestBooking(context, booking);
-                                            Toast.makeText(BeauticianDetailsActivity.this, "OK", Toast.LENGTH_SHORT).show();
+                                            ServerLogic.requestBooking(context, booking);
                                         }
                                         progDialog.dismissDialog();
                                     }
