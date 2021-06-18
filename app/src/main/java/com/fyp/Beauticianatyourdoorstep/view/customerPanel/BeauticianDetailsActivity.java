@@ -55,7 +55,6 @@ public class BeauticianDetailsActivity extends AppCompatActivity implements MyCo
     private Context context;
     private LinearLayout services_container;
     @SuppressLint("SimpleDateFormat")
-    private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
