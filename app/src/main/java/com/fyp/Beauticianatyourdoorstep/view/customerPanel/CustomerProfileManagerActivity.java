@@ -91,6 +91,11 @@ public class CustomerProfileManagerActivity extends AppCompatActivity implements
                 }
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         if (CheckInternetConnectivity.isInternetConnected(context)) {
             getBeauticianProfile();
         } else {

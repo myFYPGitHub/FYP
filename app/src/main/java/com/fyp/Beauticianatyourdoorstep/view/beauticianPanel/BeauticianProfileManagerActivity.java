@@ -100,6 +100,11 @@ public class BeauticianProfileManagerActivity extends AppCompatActivity implemen
                 }
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         if (CheckInternetConnectivity.isInternetConnected(context)) {
             getBeauticianProfile();
         } else {
