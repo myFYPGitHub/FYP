@@ -54,7 +54,7 @@ public class BeauticianProfileManagerActivity extends AppCompatActivity implemen
     private SwitchMaterial beautyMgrSwitch;
     private DatabaseReference realtimeDatabaseReference;
     private String email_identifier;
-    private TextView specialization_tv;
+    private TextView specializationTv, rating_counterTv;
     private ImageView deletePicBtn;
 
     @Override
@@ -63,10 +63,11 @@ public class BeauticianProfileManagerActivity extends AppCompatActivity implemen
         setContentView(R.layout.activity_beautician_profile_manager);
         context = BeauticianProfileManagerActivity.this;
         Intent it = getIntent();
-        specialization_tv = findViewById(R.id.beautyMgrCurrent_specialization);
+        specializationTv = findViewById(R.id.beautyMgrCurrent_specialization);
         current_specialization = it.getStringExtra(EXTRA_BEAUTICIAN_SPECIALIZATION);
-        specialization_tv.setText(current_specialization);
+        specializationTv.setText(current_specialization);
         beautyMgrRatingBar = findViewById(R.id.beautyMgrRatingBar);
+        rating_counterTv = findViewById(R.id.beautyMgrRatingCounter);
         descEd = findViewById(R.id.beautyMgrDesc);
         addressEd = findViewById(R.id.beautyMgrAddress);
         ageEd = findViewById(R.id.beautyMgrAge);
@@ -146,7 +147,7 @@ public class BeauticianProfileManagerActivity extends AppCompatActivity implemen
                                             dbRef.child(NODE_BEAUTICIAN_SERVICES).removeValue();
                                             beautyMgrSwitch.setChecked(false);
                                             current_specialization = specializationChanged;
-                                            specialization_tv.setText(current_specialization);
+                                            specializationTv.setText(current_specialization);
                                             Toast.makeText(context, "Your Specialization has been Changed", Toast.LENGTH_LONG).show();
                                         }
                                     });
@@ -179,6 +180,7 @@ public class BeauticianProfileManagerActivity extends AppCompatActivity implemen
                         Integer total_rating = beautician.getTotalRating();
                         Integer num_of_rating = beautician.getNumOfRating();
                         int beautician_rating = total_rating / (num_of_rating == 0 ? 1 : num_of_rating);
+                        rating_counterTv.setText(total_rating + "/" + num_of_rating);
                         beautyMgrRatingBar.setRating(beautician_rating);
                         descEd.setText(beautician.getDescription());
                         if (descEd.getText().toString().equals("")) {

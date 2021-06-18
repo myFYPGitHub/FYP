@@ -49,7 +49,7 @@ public class CustomerProfileManagerActivity extends AppCompatActivity implements
     private RatingBar ratingBar;
     private DatabaseReference realtimeDatabaseReference;
     private String email_identifier;
-    private TextView email_tv;
+    private TextView emailTv, rating_counterTv;;
     private ImageView deletePicBtn;
 
     @Override
@@ -58,7 +58,8 @@ public class CustomerProfileManagerActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_customer_profile_manager);
         context = CustomerProfileManagerActivity.this;
         ratingBar = findViewById(R.id.customerMgrRatingBar);
-        email_tv = findViewById(R.id.customerMgrEmail);
+        rating_counterTv = findViewById(R.id.customerMgrRatingCounter);
+        emailTv = findViewById(R.id.customerMgrEmail);
         firstNameEd = findViewById(R.id.customerMgrFirstName);
         lastNameEd = findViewById(R.id.customerMgrLastName);
         ageEd = findViewById(R.id.customerMgrAge);
@@ -161,8 +162,9 @@ public class CustomerProfileManagerActivity extends AppCompatActivity implements
                         Integer total_rating = customer.getTotalRating();
                         Integer num_of_rating = customer.getNumOfRating();
                         int rating = total_rating / (num_of_rating == 0 ? 1 : num_of_rating);
+                        rating_counterTv.setText(total_rating + "/" + num_of_rating);
                         ratingBar.setRating(rating);
-                        email_tv.setText(customer.getEmail());
+                        emailTv.setText(customer.getEmail());
                         firstNameEd.setText(customer.getFirstName());
                         lastNameEd.setText(customer.getLastName());
                         ageEd.setText(customer.getAge());

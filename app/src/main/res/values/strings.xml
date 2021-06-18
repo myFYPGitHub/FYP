@@ -29,6 +29,8 @@
     <string-array name="user_city">
         <item>Select City</item>
         <item>Islamabad</item>
+        <item>Rawalpindi</item>
+        <item>Taxila</item>
         <item>Lahore</item>
         <item>Abbottabad</item>
         <item>Mansehra</item>
